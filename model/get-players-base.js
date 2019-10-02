@@ -14,10 +14,12 @@ const selID = 'body > table > tbody > tr > td:nth-child(2) > table:nth-child(2) 
 
 const getHtml = (selector) => document.querySelector(selector).innerHTML;
 
-const nightmare = Nightmare({show: false});
+
 
 function GetPlayersBase(_url) {
     const jimUrl = _url;
+    const nightmare = Nightmare({show: false});
+    console.log("=================lets log on pefl and download players arh");
   return new Promise(function(resolve, reject) {
         nightmare
         .goto(pefl_auth)
@@ -35,9 +37,10 @@ function GetPlayersBase(_url) {
       })
       .end()
        .then((results)=> {
-             console.log(jimUrl);
+             console.log("jimUrl = ", jimUrl);
           const fs = require("fs");
           fs.writeFile("desmond_jim.zip", results, "binary", (err)=>{
+            if (err) console.log("writeFile err", err);
             nightmare.end();
             resolve(results);
           })
@@ -58,18 +61,14 @@ const insertUpdatePlayersSql = "INSERT INTO `Yu6lr7ef8O`.`players` (`name`, `nat
 " VALUES ? " + 
 " ON DUPLICATE KEY UPDATE name = VALUES(name),  nation = VALUES(nation), age = VALUES(age)" + 
 ", position = VALUES(position), type = VALUES(type), teamId = VALUES(teamId), ff = VALUES(ff), href = VALUES(href);" ;
-// const insertUpdatePlayersSql = "INSERT INTO `Yu6lr7ef8O`.`players` (`name`, `nation`, `age`, `position`, `type`, `teamId`, `ff`, `href`)" + 
-// " VALUES ? ;"
-// " ON DUPLICATE KEY UPDATE name = VALUES(name),  nation = VALUES(nation), age = VALUES(age)" + 
-// ", position = VALUES(position), type = VALUES(type), teamId = VALUES(teamId), ff = VALUES(ff), href = VALUES(href);" ;
 
-let startTime, endTime;
 
 // const dbPool = require('./connection-pool');
 const dbQuery = require('./db').dbQuery;
-const dbExecute = require('./db').dbExecute;
+// const dbExecute = require('./db').dbExecute;
 
 function handlePlayersFile() {
+  console.log("lets get players base");
     return new Promise((res, rej) => {
         const zip = new require('adm-zip')('desmond_jim.zip');
         zip.extractAllTo(/*target path*/"data/", /*overwrite*/true);
@@ -79,10 +78,15 @@ function handlePlayersFile() {
         fs1.createReadStream('data/desmond_jim.txt')
         .pipe(iconv.decodeStream('win1251'))
         .pipe(iconv.encodeStream('utf8'))
+        .on('start', function() {
+          console.log('read desmond_jim.txt stream started');
+        })
         .on('data', function(data) {
             dataarr.push(data);
         })
         .on('end', function(data) {
+            console.log("desmond_jim.txt reading done");
+
             const playerRecords = dataarr.toString('utf8').slice(1).split('|');
             const players = [];
             let rec = [];
@@ -96,6 +100,7 @@ function handlePlayersFile() {
                 };
                 
             });
+              
                  res(players);
 
 
@@ -158,14 +163,17 @@ function insertPlayersBase() {
   }
 
 
-  startTime = new Date();
+
 /**
  * delete FROM Yu6lr7ef8O.players where id>0;
 alter table Yu6lr7ef8O.players AUTO_INCREMENT = 1;
  */
 function updatePlayersBase(){
+  let startTime = new Date();
+
   dbQuery("delete FROM Yu6lr7ef8O.players where id>0; alter table Yu6lr7ef8O.players AUTO_INCREMENT = 1;")
-  .then(()=>{
+  .then((delRes)=>{
+    console.log("table cleared");
     return insertPlayersBase();
   })
   .catch((err)=>{
