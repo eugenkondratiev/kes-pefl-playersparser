@@ -7,9 +7,15 @@ const jim = pefl + 'desmond_jim.php';
 // const searchPageRef = 'http://pefl.ru/plug.php?p=search&z=eaaba7976996785daecdd4ec941c1c3d';
 
 const pefl_auth =  pefl + 'auth.php';
+// body > table > tbody > tr > td:nth-child(2) > table:nth-child(3) > tbody > tr > td.back4 > table > tbody > tr:nth-child(2) > td
+// body > table > tbody > tr > td:nth-child(2) > table:nth-child(3) > tbody > tr > td.back4 > table > tbody > tr:nth-child(2) > td > form > input[type=text]:nth-child(1)
+
 const selPeflLogin = 'td.back4 tr:nth-child(2) input[type=text]:nth-child(1)';
 const selPeflPassword ='td.back4 tr:nth-child(2) form > input[type=password]:nth-child(2)';
+// const selIndexNews ='span.text2b';
+//a[href="index.php?n=headlines"]
 const selIndexNews ='td.back4 tr:nth-child(1) > td > a:nth-child(2)';
+const selLoginForm ='form[name="login"]';
 const selID = 'body > table > tbody > tr > td:nth-child(2) > table:nth-child(2) > tbody > tr > td > table > tbody > tr > td:nth-child(3)';
 
 const getHtml = (selector) => document.querySelector(selector).innerHTML;
@@ -27,6 +33,8 @@ function GetPlayersBase(_url) {
         .insert(selPeflLogin, login.login)
         .insert(selPeflPassword, login.password)
         .click('input[type=submit]')
+        // .wait(selILoginForm)
+        .wait(5000)
         .wait(selIndexNews)
         .evaluate(function ev(){
           var xhr = new XMLHttpRequest();
@@ -54,7 +62,7 @@ function GetPlayersBase(_url) {
 }
 
 
- //INSERT INTO `Yu6lr7ef8O`.`players` (`id`, `name`, `lastname`, `nation`, `age`, `position`, `type`, `teamId`, `ff`)
+ //INSERT INTO `pefl`.`players` (`id`, `name`, `lastname`, `nation`, `age`, `position`, `type`, `teamId`, `ff`)
   // VALUES ('0', 'dfdd', 'rgwrtrw', '93', '15', 'GK', '2', '488', '93');
  
 const insertUpdatePlayersSql = "INSERT INTO `Yu6lr7ef8O`.`players` (`name`, `nation`, `age`, `position`, `type`, `teamId`, `ff`, `href`)" + 
@@ -63,8 +71,15 @@ const insertUpdatePlayersSql = "INSERT INTO `Yu6lr7ef8O`.`players` (`name`, `nat
 ", position = VALUES(position), type = VALUES(type), teamId = VALUES(teamId), ff = VALUES(ff), href = VALUES(href);" ;
 
 
+// const insertUpdatePlayersSql = "INSERT INTO `pefl`.`players` (`name`, `nation`, `age`, `position`, `type`, `teamId`, `ff`, `href`)" + 
+// " VALUES ? " + 
+// " ON DUPLICATE KEY UPDATE name = VALUES(name),  nation = VALUES(nation), age = VALUES(age)" + 
+// ", position = VALUES(position), type = VALUES(type), teamId = VALUES(teamId), ff = VALUES(ff), href = VALUES(href);" ;
+
+
 // const dbPool = require('./connection-pool');
-const dbQuery = require('./db').dbQuery;
+const dbQuery = require('./db2').dbQuery;
+// const dbQuery = require('./db').dbQuery;
 // const dbExecute = require('./db').dbExecute;
 
 function handlePlayersFile() {
@@ -165,13 +180,14 @@ function insertPlayersBase() {
 
 
 /**
- * delete FROM Yu6lr7ef8O.players where id>0;
-alter table Yu6lr7ef8O.players AUTO_INCREMENT = 1;
+ * delete FROM pefl.players where id>0;
+alter table pefl.players AUTO_INCREMENT = 1;
  */
 function updatePlayersBase(){
   let startTime = new Date();
 
   dbQuery("delete FROM Yu6lr7ef8O.players where id>0; alter table Yu6lr7ef8O.players AUTO_INCREMENT = 1;")
+  // dbQuery("delete FROM pefl.players where id>0; alter table pefl.players AUTO_INCREMENT = 1;")
   .then((delRes)=>{
     console.log("table cleared");
     return insertPlayersBase();
@@ -180,8 +196,8 @@ function updatePlayersBase(){
     console.log("Clear players table err --", err)
   })
   .then(resp=> {
-      console.log("Calculation time", new Date() - startTime, "ms");
-      // console.log(dbQuery("SELECT count(name) FROM `Yu6lr7ef8O`.`players`"));
+      console.log("Done. Calculation time", new Date() - startTime, "ms");
+      // console.log(dbQuery("SELECT count(name) FROM `pefl`.`players`"));
 
   })
   .catch(err=> {

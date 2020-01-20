@@ -1,6 +1,7 @@
 require('./scheduler')();
 
-const dbPool = require('./model/connection-pool');
+const dbPool = require('./model/connection-pool2')();
+// const dbPool = require('./model/connection-pool')();
 process.on('beforeExit', (e) => {
     dbPool.end();
 })
