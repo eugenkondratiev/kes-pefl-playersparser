@@ -65,7 +65,7 @@ function GetPlayersBase(_url) {
  //INSERT INTO `pefl`.`players` (`id`, `name`, `lastname`, `nation`, `age`, `position`, `type`, `teamId`, `ff`)
   // VALUES ('0', 'dfdd', 'rgwrtrw', '93', '15', 'GK', '2', '488', '93');
  
-const insertUpdatePlayersSql = "INSERT INTO `Yu6lr7ef8O`.`players` (`name`, `nation`, `age`, `position`, `type`, `teamId`, `ff`, `href`)" + 
+const insertUpdatePlayersSql = "INSERT INTO pefl.players (`name`, `nation`, `age`, `position`, `type`, `teamId`, `ff`, `href`)" + 
 " VALUES ? " + 
 " ON DUPLICATE KEY UPDATE name = VALUES(name),  nation = VALUES(nation), age = VALUES(age)" + 
 ", position = VALUES(position), type = VALUES(type), teamId = VALUES(teamId), ff = VALUES(ff), href = VALUES(href);" ;
@@ -77,7 +77,7 @@ const insertUpdatePlayersSql = "INSERT INTO `Yu6lr7ef8O`.`players` (`name`, `nat
 // ", position = VALUES(position), type = VALUES(type), teamId = VALUES(teamId), ff = VALUES(ff), href = VALUES(href);" ;
 
 
-// const dbPool = require('./connection-pool');
+// const dbPool = require('./connection-pool-eco');
 const dbQuery = require('./db2').dbQuery;
 // const dbQuery = require('./db').dbQuery;
 // const dbExecute = require('./db').dbExecute;
@@ -155,7 +155,7 @@ function insertPlayersBase() {
             // if ( i>11882 & i<11885 || i>8609 & i<8612) console.log(i,player[1], player);
             return player
           });
-          // console.log("playersToBd - ",  playersToBd.length);
+           console.log("playersToBd - ",  playersToBd.length);
           const playersFF = playersToBd.filter((element, index ) => {
             return true;
             // return index !== 8611 & index !== 11884 & index < 20000
@@ -164,11 +164,15 @@ function insertPlayersBase() {
             // if (element[6]==teamId & element[5] > 0) console.log(element);
           });
           console.log("playersFF -" , playersFF.length);
+          // const logRecord = new Date() +  playersFF.length + "players \n";
+          // require('fs').appendFile("actionlog.txt", logRecord , err=>{if (err) console.error(err)});
           return dbQuery(insertUpdatePlayersSql, playersFF);
       })
       .then(result => {
         // dbPool.end();
-        resolve(true);
+        const rows = result.rows.affectedRows ? result.rows.affectedRows : 0;
+        console.log("__dbQuery result",rows, result);
+        resolve(rows);
       })
       .catch(error => {
         // dbPool.end();
@@ -186,8 +190,8 @@ alter table pefl.players AUTO_INCREMENT = 1;
 function updatePlayersBase(){
   let startTime = new Date();
 
-  dbQuery("delete FROM Yu6lr7ef8O.players where id>0; alter table Yu6lr7ef8O.players AUTO_INCREMENT = 1;")
-  // dbQuery("delete FROM pefl.players where id>0; alter table pefl.players AUTO_INCREMENT = 1;")
+  //dbQuery("delete FROM Yu6lr7ef8O.players where id>0; alter table Yu6lr7ef8O.players AUTO_INCREMENT = 1;")
+  dbQuery("delete FROM pefl.players where id>0; alter table pefl.players AUTO_INCREMENT = 1;")
   .then((delRes)=>{
     console.log("table cleared");
     return insertPlayersBase();
@@ -197,6 +201,9 @@ function updatePlayersBase(){
   })
   .then(resp=> {
       console.log("Done. Calculation time", new Date() - startTime, "ms");
+      const logRecord = new Date() + "  - " + resp +  ' players \n';
+      require('fs').appendFile("actionlog.txt", logRecord, err=>{if (err) console.error(err)});
+
       // console.log(dbQuery("SELECT count(name) FROM `pefl`.`players`"));
 
   })
