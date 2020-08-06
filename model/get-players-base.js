@@ -143,7 +143,7 @@ function insertPlayersBase() {
       .catch(err => {
         reject("Upload from PEFL problem");
       })
-      .then(playersArr => {
+      .then(async playersArr => {
           const ff = 216;
           const playersToBd = playersArr.map((el, i) => {
             const player = el;
@@ -164,12 +164,28 @@ function insertPlayersBase() {
             // if (element[6]==teamId & element[5] > 0) console.log(element);
           });
           console.log("playersFF -" , playersFF.length);
+          console.log(" #### playersFF[5] -" , playersFF[5]);
+
+          const playersToMongo = playersFF.map((row,i)=>{
+            const mongoRow = [...row];
+            mongoRow.unshift(i);
+            return mongoRow
+          });
+          console.log(" #### playersToMongo [5]", playersToMongo[5]);
+          try {
+            const mongoUpdateResult = require('./update-mongo-base')(playersToMongo);
+
+          } catch (error) {
+            console.log("  mongoUpdateResult ERROR  - ", error)
+          }
           // const logRecord = new Date() +  playersFF.length + "players \n";
           // require('fs').appendFile("actionlog.txt", logRecord , err=>{if (err) console.error(err)});
           return dbQuery(insertUpdatePlayersSql, playersFF);
       })
-      .then(result => {
+      .then(result =>{
         // dbPool.end();
+        
+
         const rows = result.rows.affectedRows ? result.rows.affectedRows : 0;
         console.log("__dbQuery result",rows, result);
         resolve(rows);
