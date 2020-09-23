@@ -145,6 +145,7 @@ function insertPlayersBase() {
       })
       .then(async playersArr => {
           const ff = 216;
+          console.log("playersArr[5]  ", playersArr[5])
           const playersToBd = playersArr.map((el, i) => {
             const player = el;
             player.forEach((col, i, arr) => arr[i] = col.replace(/\,/, ''));
@@ -210,7 +211,7 @@ function updatePlayersBase(){
   dbQuery("delete FROM pefl.players where id>0; alter table pefl.players AUTO_INCREMENT = 1;")
   .then((delRes)=>{
     console.log("table cleared");
-    return insertPlayersBase();
+    return gitinsertPlayersBase();
   })
   .catch((err)=>{
     console.log("Clear players table err --", err)

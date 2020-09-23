@@ -8,5 +8,7 @@ useimport
 *log.*
 .vscode
 data
+.env
+.gitignore
 
 
