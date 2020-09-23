@@ -33,7 +33,6 @@ module.exports = function () {
   const schDbPing = schedule.scheduleJob(ruleEveryHour, async function(){
      try {
       await dbQuery("SELECT 1");
-
      } catch (error) {
        console.log(error);
        const logRecord = new Date() + "  DbPing - error " + error.message + "\n";

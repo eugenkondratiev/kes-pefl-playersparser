@@ -6,7 +6,11 @@ const COLLECTION = 'allbase';
 // const sqlplayers = " select * from `pefl`.`players`";
 
 async function getHost(_db) {
-    const record = await _db.collection("info").find({ host: { $exists: true } }).toArray();
+    const record = await _db.collection("info").find({
+        host: {
+            $exists: true
+        }
+    }).toArray();
     return record[0].host;
 }
 
@@ -21,7 +25,15 @@ function updateAllplayers(_collection, _players) {
         try {
             const newPlayersBase = _players.map((n, i) => {
                 const [_id, name, nation, age, position, type, team, ff, href] = n;
-                const playerRecord = { _id, name, nation, age, position, team, ff };
+                const playerRecord = {
+                    _id,
+                    name,
+                    nation,
+                    age,
+                    position,
+                    team,
+                    ff
+                };
                 if (type === '1') playerRecord.pens = true;
                 if (type === '2') playerRecord.school = true;
                 if (href && href != -1) playerRecord.freeRef = href;
@@ -33,9 +45,9 @@ function updateAllplayers(_collection, _players) {
 
                 return playerRecord
             });
+            console.log("newPlayersBase[5] - ", newPlayersBase[5])
             const result = await _collection.insertMany(
-                newPlayersBase,
-                {}
+                newPlayersBase, {}
             );
 
             yep({
@@ -45,8 +57,8 @@ function updateAllplayers(_collection, _players) {
             });
 
         } catch (error) {
-            console.log(i, "save errror", error);
-                    nope(error);
+            console.log("save errror", error);
+            nope(error);
         }
     })
 
@@ -72,12 +84,22 @@ async function main(players) {
 
         const host = await getHost(mongoClient._db);
         console.log('##### HOST ####', host)
-        const updateResult = await mongoClient._db.collection("info").updateOne({ players: { $exists: true } }, { $set: { players: playersBaseStatistic, lastModifiedPlayers: "$$NOW"} })
+        const updateResult = await mongoClient._db.collection("info").updateOne({
+            players: {
+                $exists: true
+            }
+        }, {
+            $set: {
+                players: playersBaseStatistic
+            },
+            $currentDate: {
+                lastModifiedPlayers: true
+            }
+        })
         console.log("mongodb info updated ", updateResult.result);
     } catch (err) {
         console.log("mongodb  updateAllplayers errror", err)
-    }
-    finally {
+    } finally {
         // setTimeout(() => {
         //     mongoClient.client.close();
         //     dbPool.end();
