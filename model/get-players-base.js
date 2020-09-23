@@ -54,10 +54,10 @@ function GetPlayersBase(_url) {
 }
 
 
- //INSERT INTO `Yu6lr7ef8O`.`players` (`id`, `name`, `lastname`, `nation`, `age`, `position`, `type`, `teamId`, `ff`)
+ //INSERT INTO `pefl`.`players` (`id`, `name`, `lastname`, `nation`, `age`, `position`, `type`, `teamId`, `ff`)
   // VALUES ('0', 'dfdd', 'rgwrtrw', '93', '15', 'GK', '2', '488', '93');
  
-const insertUpdatePlayersSql = "INSERT INTO `Yu6lr7ef8O`.`players` (`name`, `nation`, `age`, `position`, `type`, `teamId`, `ff`, `href`)" + 
+const insertUpdatePlayersSql = "INSERT INTO `pefl`.`players` (`name`, `nation`, `age`, `position`, `type`, `teamId`, `ff`, `href`)" + 
 " VALUES ? " + 
 " ON DUPLICATE KEY UPDATE name = VALUES(name),  nation = VALUES(nation), age = VALUES(age)" + 
 ", position = VALUES(position), type = VALUES(type), teamId = VALUES(teamId), ff = VALUES(ff), href = VALUES(href);" ;
@@ -165,13 +165,13 @@ function insertPlayersBase() {
 
 
 /**
- * delete FROM Yu6lr7ef8O.players where id>0;
-alter table Yu6lr7ef8O.players AUTO_INCREMENT = 1;
+ * delete FROM pefl.players where id>0;
+alter table pefl.players AUTO_INCREMENT = 1;
  */
 function updatePlayersBase(){
   let startTime = new Date();
 
-  dbQuery("delete FROM Yu6lr7ef8O.players where id>0; alter table Yu6lr7ef8O.players AUTO_INCREMENT = 1;")
+  dbQuery("delete FROM pefl.players where id>0; alter table pefl.players AUTO_INCREMENT = 1;")
   .then((delRes)=>{
     console.log("table cleared");
     return insertPlayersBase();
@@ -181,7 +181,7 @@ function updatePlayersBase(){
   })
   .then(resp=> {
       console.log("Calculation time", new Date() - startTime, "ms");
-      // console.log(dbQuery("SELECT count(name) FROM `Yu6lr7ef8O`.`players`"));
+      // console.log(dbQuery("SELECT count(name) FROM `pefl`.`players`"));
 
   })
   .catch(err=> {

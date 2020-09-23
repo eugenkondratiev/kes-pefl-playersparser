@@ -3,7 +3,7 @@
   const getPlayers = require('./model/get-players-base');
    
 
-  const ruleEveryID = {hour: [3, 13] , minute: 14  , second: 20, dayOfWeek: [2, 4, 6]};
+  const ruleEveryID = {hour: [3, 12] , minute: [17, 21]  , second: 20, dayOfWeek: [2, 3, 4, 6]};
   //  const ruleEveryID2 = {hour: 14, minute: [55, 58], second: 14, dayOfWeek: [2, 4, 6]};
 
   module.exports = function() {

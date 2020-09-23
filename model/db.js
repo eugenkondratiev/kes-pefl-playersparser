@@ -1,4 +1,4 @@
-const dbPool = require('./connection-pool');
+const dbPool = require('./connection-pool')();
 
 
 function dbExecute(_sql, values) {

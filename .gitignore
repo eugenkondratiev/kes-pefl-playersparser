@@ -7,4 +7,5 @@ filtered.out.txt
 useimport
 *log.*
 .vscode
+.env
 
