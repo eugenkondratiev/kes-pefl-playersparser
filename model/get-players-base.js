@@ -3,7 +3,7 @@ const pefl = 'http://pefl.ru/';
 // const urlIndex = pefl + 'index.php';
 const login = require('./pefl-login');
 const jim = pefl + 'desmond_jim.php';
-
+const fs = require('fs')
 // const searchPageRef = 'http://pefl.ru/plug.php?p=search&z=eaaba7976996785daecdd4ec941c1c3d';
 
 const pefl_auth = pefl + 'auth.php';
@@ -136,13 +136,13 @@ function dressUpRow(arr) {
 
 
 
-function insertPlayersBase(_oldBase) {
+function insertPlayersBase(_oldBase, _oldMongoBase) {
   return new Promise((resolve, reject) => {
 
     GetPlayersBase(jim).then(results => {
-        console.log("===============================================================================");
-        return handlePlayersFile();
-      })
+      console.log("===============================================================================");
+      return handlePlayersFile();
+    })
       .catch(err => {
         reject("Upload from PEFL problem");
       })
@@ -168,10 +168,9 @@ function insertPlayersBase(_oldBase) {
           // if (element[2]==93 & element[5] == 1) console.log(element);
           // if (element[6]==teamId & element[5] > 0) console.log(element);
         });
-        const _diff = require('./calc-players-diffference')(_oldBase, playersFF);
 
         console.log("playersFF -", playersFF.length);
-        console.log(" #### playersFF[5] -", playersFF[5]);
+        // console.log(" #### playersFF[5] -", playersFF[5]);
 
         const playersToMongo = playersFF.map((row, i) => {
           const mongoRow = [...row];
@@ -179,8 +178,13 @@ function insertPlayersBase(_oldBase) {
           return mongoRow
         });
         console.log(" #### playersToMongo [5]", playersToMongo[5]);
+        const newMongoPLayers = require('./players-to-mongo-records')(playersToMongo)
+        const _diff = require('./calc-players-diffference')(_oldMongoBase, newMongoPLayers);
+        console.log("#####  Different players - ", _diff.diff);
+        fs.writeFile(`data/currentDifferentPlayers-${(new Date()).toLocaleDateString("ru-UA")}.json`, JSON.stringify(_diff.diff),{encoding:"utf8"},err=>{if(err)console.error})
+
         try {
-          const mongoUpdateResult = require('./update-mongo-base')(playersToMongo);
+          const mongoUpdateResult = require('./update-mongo-base')(newMongoPLayers);
 
         } catch (error) {
           console.log("  mongoUpdateResult ERROR  - ", error)
@@ -206,6 +210,7 @@ function insertPlayersBase(_oldBase) {
 
 
 const getCurrentPlayerBase = require('./get-current-players-main-base');
+const getCurrentPlayerMongoBase = require('./get-current-players-mongo-base');
 
 /**
  * delete FROM pefl.players where id>0;
@@ -214,16 +219,24 @@ alter table pefl.players AUTO_INCREMENT = 1;
 async function updatePlayersBase() {
   let startTime = new Date();
   let oldBase;
+  let oldMongoBase;
   try {
     oldBase = await getCurrentPlayerBase()
   } catch (error) {
     console.log("upload base from DB error")
   }
+
+  try {
+    oldMongoBase = await getCurrentPlayerMongoBase()
+  } catch (error) {
+    console.log("upload base from DB error")
+  }
+
   //dbQuery("delete FROM Yu6lr7ef8O.players where id>0; alter table Yu6lr7ef8O.players AUTO_INCREMENT = 1;")
   await dbQuery("delete FROM pefl.players where id>0; alter table pefl.players AUTO_INCREMENT = 1;")
   try {
     console.log("table cleared");
-    const resp = await insertPlayersBase(oldBase);
+    const resp = await insertPlayersBase(oldBase, oldMongoBase);
     console.log("Done. Calculation time", new Date() - startTime, "ms");
     const logRecord = new Date() + "  - " + resp + ' players \n';
     require('fs').appendFile("actionlog.txt", logRecord, err => {
