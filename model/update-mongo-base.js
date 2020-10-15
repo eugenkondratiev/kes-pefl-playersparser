@@ -15,36 +15,13 @@ async function getHost(_db) {
 }
 
 
-function updateAllplayers(_collection, _players) {
+function updateAllplayers(_collection, newPlayersBase) {
 
 
-    const lastplayer = _players.length - 1;
-    console.log("lastplayer   ", lastplayer);
     return new Promise(async (yep, nope) => {
 
         try {
-            const newPlayersBase = _players.map((n, i) => {
-                const [_id, name, nation, age, position, type, team, ff, href] = n;
-                const playerRecord = {
-                    _id,
-                    name,
-                    nation,
-                    age,
-                    position,
-                    team,
-                    ff
-                };
-                if (type === '1') playerRecord.pens = true;
-                if (type === '2') playerRecord.school = true;
-                if (href && href != -1) playerRecord.freeRef = href;
-                if (i === lastplayer) {
-                    console.log(i, "i === lastplayer", playerRecord)
-
-                    // yep(null);
-                }
-
-                return playerRecord
-            });
+            
             console.log("newPlayersBase[5] - ", newPlayersBase[5])
             const result = await _collection.insertMany(
                 newPlayersBase, {}

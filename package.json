@@ -9,7 +9,7 @@
     "dotenv": "^8.2.0",
     "extract-zip": "^1.6.7",
     "iconv-lite": "^0.5.0",
-    "mongodb": "^3.6.0",
+    "mongodb": "^3.6.2",
     "mongoose": "^5.9.27",
     "mysql2": "^1.7.0",
     "nightmare": "^3.0.2",
