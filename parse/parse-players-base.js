@@ -1,19 +1,12 @@
-module.exports = function (_url) {
+module.exports = function (_url, _nightmare) {
     const jimUrl = _url;
-    const nightmare = Nightmare({
-        show: false
-    });
+    // const nightmare = Nightmare({
+    //     show: false
+    // });
     console.log("=================lets log on pefl and download players arh");
     return new Promise(function (resolve, reject) {
-        nightmare
-            .goto(pefl_auth)
-            .wait('body')
-            .insert(selPeflLogin, login.login)
-            .insert(selPeflPassword, login.password)
-            .click('input[type=submit]')
-            // .wait(selILoginForm)
-            .wait(5000)
-            .wait(selIndexNews)
+        _nightmare
+            .wait(2000)
             .evaluate(function ev() {
                 var xhr = new XMLHttpRequest();
                 xhr.open("GET", 'http://pefl.ru/desmond_jim.php', false);
@@ -21,19 +14,18 @@ module.exports = function (_url) {
                 xhr.send();
                 return xhr.responseText;
             })
-            .end()
+            // .end()
             .then((results) => {
                 console.log("jimUrl = ", jimUrl);
-                const fs = require("fs");
-                fs.writeFile("desmond_jim.zip", results, "binary", (err) => {
+                require("fs").writeFile("desmond_jim.zip", results, "binary", (err) => {
                     if (err) console.log("writeFile err", err);
-                    nightmare.end();
+                    // nightmare.end();
                     resolve(results);
                 })
             })
             .catch(err => {
                 console.log("GetPlayersBase - ", err);
-                nightmare.end();
+                // nightmare.end();
                 reject(err);
             });;
     });
