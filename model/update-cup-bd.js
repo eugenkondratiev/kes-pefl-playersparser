@@ -53,7 +53,7 @@ function formRoundsList(_rounds, _id) {
 async function updateCup(data) {
     const id = data.id;
     console.log("CUP ID - ", id, "data.id  -", data.id);
-    console.log("data  -", data);
+    // console.log("data  -", data);
     const parameters = data.id.split('_');
     console.log("parameters  - ", parameters);
 
@@ -63,12 +63,12 @@ async function updateCup(data) {
 
     try {
         const res1 = await dbQuery(sqlUpdateCup, [tRecord]);
-        console.log("res1 - ", res1);
+        // console.log("res1 - ", res1);
         const res2 = await dbQuery(sqlUpdateRounds, formRoundsList(data.rounds, id));
-        console.log("res2 - ", res2);
+        // console.log("res2 - ", res2);
 
         const res3 = await dbQuery(sqlUpdateGames, formGamesList(data.games, id));
-        console.log("res3 - ", res3);
+        // console.log("res3 - ", res3);
         // dbPool.end();
     } catch (error) {
         console.log("dbQuery  - ", error);

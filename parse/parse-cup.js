@@ -47,7 +47,7 @@ function ParseCup(_nightmare, cupUrl, _cupName) {
               console.log(_cupName, " END  ", Array.isArray(results), results.length);
               // console.log("resolve  - ", { id: cupId, name: _cupName, z: cupZ, rounds: rounds, games: results });
   
-              resolve({ id: cupId, name: _cupName, z: cupZ, rounds: rounds, games: results });
+              resolve({ id: cupId, name: _cupName, z: cupZ, rounds: rounds, games: results, season: tSeason });
             })
             .catch(err => {
               console.log(err);

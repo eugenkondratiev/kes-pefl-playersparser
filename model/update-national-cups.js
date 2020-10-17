@@ -11,7 +11,7 @@ module.exports = (_nightmare, cupsList) => {
                 return ParseCup(_nightmare, pefl + cupRecord.href, curCupName)
                     .then(results => {
 
-                        fs.writeFile("data/_cups/_" + curCupName + ".json", JSON.stringify(results, null, " "), async err => {
+                        fs.writeFile(`data/_cups/_${curCupName}-${results.season}.json`, JSON.stringify(results, null, " "), async err => {
                             if (err) console.log(err);
                             //  !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
                             //  !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
