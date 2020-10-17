@@ -76,14 +76,14 @@ module.exports = function () {
     }
 
   });
-  const schGetPlayers = schedule.scheduleJob(ruleEveryHour, function () {
-    // const schGetPlayers = schedule.scheduleJob(ruleEveryID, function () {
+  // const schGetPlayers = schedule.scheduleJob(ruleEveryHour, function () {
+  const schGetPlayers = schedule.scheduleJob(ruleEveryID, function () {
     playerBaseUpdateAction().then(() => true, (err) => console.log(err));
 
     // j.cancel();
   });
-  const schParseCups = schedule.scheduleJob(ruleEveryHour2, async function () {
-    // const schParseCups = schedule.scheduleJob(ruleEveryWeek, async function () {
+  // const schParseCups = schedule.scheduleJob(ruleEveryHour2, async function () {
+  const schParseCups = schedule.scheduleJob(ruleEveryWeek, async function () {
     cupsUpdateAction().then(() => true, (err) => console.log(err));
     ;
   });
