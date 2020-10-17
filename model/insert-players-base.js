@@ -39,7 +39,7 @@ module.exports = function() {
           });
           console.log(" #### playersToMongo [5]", playersToMongo[5]);
           try {
-            const mongoUpdateResult = require('./update-mongo-base')(playersToMongo);
+            const mongoUpdateResult = require('./mongo/update-mongo-base')(playersToMongo);
   
           } catch (error) {
             console.log("  mongoUpdateResult ERROR  - ", error)

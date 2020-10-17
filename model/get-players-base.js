@@ -16,7 +16,7 @@ const dbQuery = require('./db2').dbQuery;
 // const GetPlayersBase = require('../parse/parse-players-base');
 const handlePlayersFile = require('../parse/handle-players-file');
 const getCurrentPlayerBase = require('./get-current-players-main-base');
-const getCurrentPlayerMongoBase = require('./get-current-players-mongo-base');
+const getCurrentPlayerMongoBase = require('./mongo/get-current-players-mongo-base');
 const parsePlayersBase = require('../parse/parse-players-base');
 
 async function insertPlayersBase(playersArr, _oldBase, _oldMongoBase) {
@@ -42,13 +42,13 @@ async function insertPlayersBase(playersArr, _oldBase, _oldMongoBase) {
       return mongoRow
     });
     console.log(" #### playersToMongo [5]", playersToMongo[5]);
-    const newMongoPLayers = require('./players-to-mongo-records')(playersToMongo)
+    const newMongoPLayers = require('./mongo/players-to-mongo-records')(playersToMongo)
     const _diff = require('./calc-players-diffference')(_oldMongoBase, newMongoPLayers);
-    console.log("#####  Different players - ", _diff.diff);
-    fs.writeFile("data/currentDifferentPlayers.json", JSON.stringify(_diff.diff), { encoding: "utf8" }, err => { if (err) console.error })
+    console.log("#####  Different players - ", _diff.changed);
+    fs.writeFile(`data/currentDifferentPlayers-${(new Date()).toLocaleDateString("ru-UA")}.json`, JSON.stringify(_diff.changed), { encoding: "utf8" }, err => { if (err) console.error })
 
     try {
-      const mongoUpdateResult = require('./update-mongo-base')(newMongoPLayers);
+      const mongoUpdateResult = require('./mongo/update-mongo-base')(newMongoPLayers);
 
     } catch (error) {
       console.log("  mongoUpdateResult ERROR  - ", error)

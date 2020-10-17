@@ -5,12 +5,12 @@ const { getHtml } = require('../utils/getters');
 
 module.exports = (cupsList, _nightmare) => {
     return new Promise((res, rej) => {
-        console.log(cupsList.cups);
+        
+        console.log("cupsList.cups  - " , cupsList.cups.length);
         console.log("=====================================================");
         console.log("================EC======");
-        console.log(cupsList.ec);
+        console.log("cupsList.ec  - " , cupsList.ec.length);
         console.log("=====================================================");
-        let _season;
         cupsList.cups.reduce(function (acc, url) {
             return acc.then(function (results) {
                 console.log(pefl + url[1]);

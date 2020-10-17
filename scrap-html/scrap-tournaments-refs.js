@@ -10,7 +10,7 @@ const getCupsRefs = html => {
     // console.log(html);
     const selFFs = tSelector + ' td';
     console.log('=======================================================');
-    console.log(selFFs);
+    // console.log(selFFs);
     console.log('=======================================================');
 
     console.log($(selFFs).html());
@@ -34,11 +34,11 @@ const getCupsRefs = html => {
         } catch (error) {
             console.log(error.message)
         }
-        console.log(label, "        ", href, "    ", cupType, "   ", t_id);
+        // console.log(label, "        ", href, "    ", cupType, "   ", t_id);
 
 
     });
-    console.log('=======================================================');
+    // console.log('=======================================================');
 
     return { cups: data, ec: ec };
 

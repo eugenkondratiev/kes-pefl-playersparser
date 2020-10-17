@@ -9,9 +9,9 @@ const ruleEveryID = {
   dayOfWeek: [2, 4, 6]
 };
 const ruleEveryWeek = {
-  hour: 3,
-  minute: 14,
-  second: 20,
+  hour: 4,
+  minute: 5,
+  second: 6,
   dayOfWeek: 0
 };
 
@@ -62,7 +62,7 @@ module.exports = function () {
   setTimeout(() => {
     cupsUpdateAction().then(() => true, err => console.log(err));
 
-  }, 200000)
+  }, 120000)
 
   // require('./model/update-cups-base')().then(() => true, (err) => console.log(err));
 

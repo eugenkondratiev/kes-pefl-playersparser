@@ -1,7 +1,11 @@
 const parseTournaments = require('../parse/parse-tournaments-page')
 const parseLocalCups = require('../parse/parse-local-cups');
+const parseNationalCups = require('./update-national-cups');
+
 const util = require('util');
-const fs = require('fs')
+const fs = require('fs');
+const parseSeason = require('../parse/parse-season');
+
 const writeFile = util.promisify(fs.writeFile);
 
 module.exports = async () => {
@@ -9,29 +13,25 @@ module.exports = async () => {
     console.log(" Start update cups base");
     console.log("=================================================");
     let startTime = new Date();
-    let cupsList;
-    let oldMongoBase;
-    let allCupsRefs;
+    let cupsRefs, oldMongoBase, allCupsRefs, currentSeason;
     try {
-        cupsList = await parseTournaments(nightmare);
-        allCupsRefs = await parseLocalCups(cupsList, nightmare);
-        await writeFile(`data/international-cups-list-${startTime.toLocaleDateString()}.json`, JSON.stringify(cupsList.ec, null, " "));
+        cupsRefs = await parseTournaments(nightmare);
+        currentSeason = await parseSeason(nightmare, cupsRefs.refToCurrentSeason);
+        console.log("######  Current season   - ", currentSeason);
+        console.log('###update -cups-base  cupsRefs :>> ', cupsRefs);
+        await writeFile(`data/cupsRefs-${startTime.toLocaleDateString()}.json`, JSON.stringify(cupsRefs, null, " "));
+
+        allCupsRefs = await parseLocalCups(cupsRefs.ffList, nightmare);
+        await writeFile(`data/international-cups-list-${startTime.toLocaleDateString()}.json`, JSON.stringify(cupsRefs.ffList.ec, null, " "));
         await writeFile(`data/ff-cups-list-${startTime.toLocaleDateString()}.json`, JSON.stringify(allCupsRefs, null, " "));
         console.log("Done. Calculation time", new Date() - startTime, "ms");
+        console.time("Start national cups ");
+        await parseNationalCups(nightmare, allCupsRefs)
+
+        console.timeEnd("Start national cups ");
 
     } catch (error) {
         console.log("update cup DB error", error)
-        // }
-
-        // try {
-        //     oldMongoBase = await getCurrentPlayerMongoBase()
-        // } catch (error) {
-        //     console.log("upload base from mongodb error")
-        // }
-        // await parsePlayersBase(jim, nightmare)
-        // playersArray = await handlePlayersFile();
-
-        
         // nightmare.end();
     }
     finally {

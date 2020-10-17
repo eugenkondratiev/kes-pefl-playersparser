@@ -1,11 +1,13 @@
 // const { getHtml, getParameter, getRoundName, tCodes, getZ, getGameObj, getTvObj, getSearchParameter } = require('../utils/getters');
-const { getHtml } = require('../utils/getters');
+// const { pefl } = require('./selectors');
 
 
 // const getFFs = require('../scrap-html/scrap-tournaments');
 const getCupsRefs = require('../scrap-html/scrap-tournaments-refs');
+const getCzRef = require('../scrap-html/scrap-cz-ref')
 
-const { bodySelecor, tSelector, tournamentsPageRef } = require('./selectors')
+const { getHtml } = require('../utils/getters');
+const { pefl, bodySelecor, tSelector, tournamentsPageRef } = require('./selectors')
 
 module.exports = (_nightmare) => {
     return new Promise((res, rej) => {
@@ -22,10 +24,11 @@ module.exports = (_nightmare) => {
             .then(htmlCode => {
                 console.log("then->  !!!!! start getCupsRefs");
                 const ffList = getCupsRefs(htmlCode)
+                const refToCurrentSeason = getCzRef(htmlCode)
                 //  console.table(oneRoundGames );
                 // console.table( getRoundList(response));
                 // nightmare.end();
-                res(ffList);
+                res({ ffList: ffList, refToCurrentSeason: pefl + refToCurrentSeason });
                 // console.log( getPlayers(response));
             })
             .catch(err => {
