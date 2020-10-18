@@ -1,6 +1,7 @@
 const parseTournaments = require('../parse/parse-tournaments-page')
 const parseLocalCups = require('../parse/parse-local-cups');
-const parseNationalCups = require('./update-national-cups');
+const parseNationalCups = require('./update-cups');
+const parseEuroCups = require('./update-cups');//  same for euro. cup part
 
 const util = require('util');
 const fs = require('fs');
@@ -25,10 +26,18 @@ module.exports = async () => {
         await writeFile(`data/international-cups-list-${startTime.toLocaleDateString()}.json`, JSON.stringify(cupsRefs.ffList.ec, null, " "));
         await writeFile(`data/ff-cups-list-${startTime.toLocaleDateString()}.json`, JSON.stringify(allCupsRefs, null, " "));
         console.log("Done. Calculation time", new Date() - startTime, "ms");
+
+        console.time("euro-cups ");
+        await parseEuroCups(nightmare, cupsRefs.ffList.ec , currentSeason)
+
+        console.timeEnd("euro-cups ");
+        
         console.time("Start national cups ");
         await parseNationalCups(nightmare, allCupsRefs)
 
         console.timeEnd("Start national cups ");
+
+
 
     } catch (error) {
         console.log("update cup DB error", error)

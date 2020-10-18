@@ -6,6 +6,9 @@ const dbQuery = require('./db').dbQuery;
 const sqlUpdateCup = "INSERT INTO `pefl`.`tournaments` (`id`,  `ff`,  `season`, `type`, `name`, `z`) VALUES ? " +
     " ON DUPLICATE KEY UPDATE id = VALUES(id), ff = VALUES(ff), season = VALUES(season), type = VALUES(type), name = VALUES(name), z = VALUES(z)";
 
+const sqlUpdateEuroCup = "INSERT INTO `pefl`.`tournaments` (`id`,  `ff`,  `season`, `type`, `name`, `z`, `pl`) VALUES ? " +
+    " ON DUPLICATE KEY UPDATE id = VALUES(id), ff = VALUES(ff), season = VALUES(season), type = VALUES(type), name = VALUES(name), z = VALUES(z), pl = VALUES(pl)";
+
 const sqlUpdateRounds = "INSERT INTO `pefl`.`rounds` (`id`, `tournId`,  `name`, `n`) VALUES ? " +
     " ON DUPLICATE KEY UPDATE id = VALUES(id), tournId = VALUES(tournId), n = VALUES(n), name = VALUES(name)";
 
@@ -31,7 +34,7 @@ function formGamesList(_games, _id) {
             // console.log("game record - ", record, _clubs[opp1], _clubs[opp2]);
             if (record[0]) list.push(record);
         } catch (error) {
-            console.log("### update-cup-bd",error)
+            console.log("### update-cup-bd", error)
         }
 
     });
@@ -58,11 +61,18 @@ async function updateCup(data) {
     console.log("parameters  - ", parameters);
 
     const tRecord = [id, parseInt(parameters[1]), parseInt(parameters[2]), parameters[0], data.name, data.z];
+    let sqlCup;
+    if (data.pl) {
+        tRecord.push(data.pl);
+        sqlCup = sqlUpdateEuroCup // for eurocups
+    } else {
+        sqlCup = sqlUpdateCup
+    }
 
     console.log("tRecord  - ", tRecord);
 
     try {
-        const res1 = await dbQuery(sqlUpdateCup, [tRecord]);
+        const res1 = await dbQuery(sqlCup, [tRecord]);
         // console.log("res1 - ", res1);
         const res2 = await dbQuery(sqlUpdateRounds, formRoundsList(data.rounds, id));
         // console.log("res2 - ", res2);

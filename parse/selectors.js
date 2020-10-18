@@ -23,10 +23,11 @@ module.exports = {
     schoolTable: '#rt',
     tournamentsPageRef: 'http://pefl.ru/plug.php?p=refl&z=48c617d600c4110a664d80c8d852d463',
     cupRounds: 'td.back4 tr:nth-child(2) > td > table',
+    cupGroups: 'td.back4 tr:nth-child(2) > td > a',
     selID: 'td:nth-child(2) > table:nth-child(2) td:nth-child(3)',
-    selOpposites : 'td:nth-child(1)',
-    selGames : 'td:nth-child(2)',
-    selTv : 'td:nth-child(3)',
-    roundGames : 'td.back4 p:nth-child(3) > table',
-    
+    selOpposites: 'td:nth-child(1)',
+    selGames: 'td:nth-child(2)',
+    selTv: 'td:nth-child(3)',
+    roundGames: 'td.back4 p:nth-child(3) > table',
+
 }
