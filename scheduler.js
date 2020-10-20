@@ -17,7 +17,7 @@ const ruleEveryWeek = {
 
 // const ruleEveryID = {hour: 11, minute: [36  , 38], second: 14, dayOfWeek: [1, 2, 4, 6]};
 const ruleEveryHour = { minute: 1, second: 4 };
-const ruleEveryHour2 = { minute: 8, second: 8 };
+const ruleEveryHour2 = { minute: 58, second: 8 };
 
 module.exports = function () {
 
@@ -58,9 +58,9 @@ module.exports = function () {
       });
     };
   }
-  playerBaseUpdateAction().then(() => true, (err) => console.log(err));
+  playerBaseUpdateAction().then(() => true, (err) => console.log("###### - playerBaseUpdateAction",err));
   setTimeout(() => {
-    cupsUpdateAction().then(() => true, err => console.log(err));
+    cupsUpdateAction().then(() => true, err => console.log("###### - cupsUpdateAction", err));
 
   }, 120000)
 
@@ -76,14 +76,14 @@ module.exports = function () {
     }
 
   });
-  const schGetPlayers = schedule.scheduleJob(ruleEveryHour, function () {
-  // const schGetPlayers = schedule.scheduleJob(ruleEveryID, function () {
+  // const schGetPlayers = schedule.scheduleJob(ruleEveryHour, function () {
+  const schGetPlayers = schedule.scheduleJob(ruleEveryID, function () {
     playerBaseUpdateAction().then(() => true, (err) => console.log(err));
 
     // j.cancel();
   });
-  const schParseCups = schedule.scheduleJob(ruleEveryHour2, async function () {
-  // const schParseCups = schedule.scheduleJob(ruleEveryWeek, async function () {
+  // const schParseCups = schedule.scheduleJob(ruleEveryHour2, function () {
+  const schParseCups = schedule.scheduleJob(ruleEveryWeek, async function () {
     cupsUpdateAction().then(() => true, (err) => console.log(err));
     ;
   });

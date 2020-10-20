@@ -34,13 +34,13 @@ function ParseCup(_nightmare, cupUrl, _cupName, _season) {
         });
 
         list.hrefs.reduce(function (acc, url, index, arr) {
-          return acc.then(function (results) {
+          return acc.then(function (rlt) {
             return _nightmare.goto(pefl + url)
               .wait(1000)
               .wait(roundGames)
               .evaluate(getHtml, bodySelecor)
               .then((roundsList) => {
-                return results.concat(getMatches(list.data[index].roundId, roundsList))
+                return rlt.concat(getMatches(list.data[index].roundId, roundsList))
               })
               .catch(err => { if (err) console.log(err) })
           });

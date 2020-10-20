@@ -32,10 +32,10 @@ module.exports = async () => {
 
         console.timeEnd("euro-cups ");
         
-        console.time("Start national cups ");
-        await parseNationalCups(nightmare, allCupsRefs)
+        // console.time("Start national cups ");
+        // // await parseNationalCups(nightmare, allCupsRefs)
 
-        console.timeEnd("Start national cups ");
+        // console.timeEnd("Start national cups ");
 
 
 

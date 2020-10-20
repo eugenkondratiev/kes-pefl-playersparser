@@ -1,5 +1,5 @@
 
-const { getParameter, getTvObj, getGameObj} = require('../utils/getters');
+const { getParameter, getTvObj, getGameObj, getSearchParameter } = require('../utils/getters');
 const { selTv, selOpposites, selGames, roundGames, } = require('../parse/selectors')
 
 
@@ -18,15 +18,18 @@ const getMatches = (_roundID, html) => {
         let secondGame;
         let secondGameObj;
         let opposites;
-        let oppositeUrl2;
-        let oppositeUrl1;
+        let jOppositeUrl2;
+        let jOppositeUrl1;
         let oppositNames;
         let games = (reports.text().match(/ \(/))
             ? reports.text().replace(/[\(\)]/g, "").split(" ")
             : reports.text();
 
         if (games !== 'Отчет') {
-            oppositNames = gameString.split(" - ");
+            oppositNames = gameString.split(" - ").map(nm => nm.trim());
+            jOppositeUrl2 = getSearchParameter($(game).find("td:nth-child(1) > a:nth-child(2)").attr("href"), "j")
+                || getSearchParameter($(game).find("td:nth-child(1) > a:nth-child(3)").attr("href"), "j");
+            jOppositeUrl1 = getSearchParameter($(game).find("td:nth-child(1) > a:nth-child(1)").attr("href"), "j");
 
             if (reports.text().match(/ \(/)) {
 
@@ -34,14 +37,7 @@ const getMatches = (_roundID, html) => {
                 firstGameObj = getGameObj(firstGame);
                 secondGame = reports.find("a:nth-child(1)").attr("href");
                 secondGameObj = getGameObj(secondGame);
-
-                oppositeUrl2 = $(game).find("td:nth-child(1) > a:nth-child(2)").attr("href");
-                oppositeUrl1 = $(game).find("td:nth-child(1) > a:nth-child(1)").attr("href");
-
             } else {
-                oppositeUrl2 = $(game).find("td:nth-child(1) > a:nth-child(2)").attr("href");
-                oppositeUrl1 = $(game).find("td:nth-child(1) > a:nth-child(1)").attr("href");
-
                 firstGame = reports.find("a:nth-child(1)").attr("href");
                 firstGameObj = getGameObj(firstGame);
                 secondGame = null;
@@ -49,8 +45,8 @@ const getMatches = (_roundID, html) => {
             }
 
             opposites = [
-                { name: oppositNames[0], j: getParameter(oppositeUrl1, "j") },
-                { name: oppositNames[1], j: getParameter(oppositeUrl2, "j") }
+                { name: oppositNames[0], j: jOppositeUrl1 },
+                { name: oppositNames[1], j: jOppositeUrl2 }
             ];
             const tv = $(game).find(selTv).find('a').attr("href");
             const tvObj = getTvObj(tv);

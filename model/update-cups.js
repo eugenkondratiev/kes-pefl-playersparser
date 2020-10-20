@@ -1,15 +1,15 @@
 const ParseCup = require('../parse/parse-cup')
 const { pefl } = require('../parse/selectors')
 const fs = require('fs');
-module.exports = (_nightmare, cupsList, _season) => {
+module.exports =    (_nightmare, cupsList, _season) => {
     return new Promise((res, rej) => {
         let groupsList = [];
 
         cupsList.reduce(function (acc, cupRecord, index, err) {
             // subList.reduce(function(acc, cupRecord, index, err) {
             return acc.then(function (promResult) {
-                const cupRef = pefl + (cupRecord[0] ? cupRecord[1] : cupRecord.href);
-                const curCupName = cupRecord[0] ? cupRecord[0].trim() : cupRecord.name.trim();
+                const cupRef = pefl + (cupRecord.href ? cupRecord.href : cupRecord[1]);
+                const curCupName = cupRecord.href ? cupRecord.name.trim() : cupRecord[0].trim();
 
                 // const curCupName = cupRecord.name.trim();
                 // console.log(' update-national-cups cupRecord :>> ', cupRecord);

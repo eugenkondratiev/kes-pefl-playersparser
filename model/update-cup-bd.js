@@ -31,6 +31,7 @@ function formGamesList(_games, _id) {
             const href_z = (type == "g2") ? g.secondGameObj.z : g.firstGameObj.z;
             const score = (type == "g2") ? g.games[0] : g.games;
             const record = [id, _id, round, opp1, opp2, tv_z, href_z, score, type];
+            if (record.includes(NaN))  {console.log("NaN record - " , g, record)};
             // console.log("game record - ", record, _clubs[opp1], _clubs[opp2]);
             if (record[0]) list.push(record);
         } catch (error) {
