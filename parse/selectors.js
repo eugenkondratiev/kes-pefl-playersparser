@@ -29,5 +29,10 @@ module.exports = {
     selGames: 'td:nth-child(2)',
     selTv: 'td:nth-child(3)',
     roundGames: 'td.back4 p:nth-child(3) > table',
-
+    selGroupTable : 'td.back4 > table > tbody > tr:nth-child(2) > td > a:nth-child(3)',
+    selGroupTours : 'td.back4 > table > tbody > tr:nth-child(2) > td > a:nth-child(5)',
+    selGroupToursList : 'td.back4 > table > tbody > tr:nth-child(2) > td',
+    selGroupTableList : 'td.menudown.back2',
+    selGroupFinalTable : "#divtable > tbody > tr:not(:first-child) a",
+    
 }

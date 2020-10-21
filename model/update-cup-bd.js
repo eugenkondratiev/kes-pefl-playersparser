@@ -10,7 +10,7 @@ const sqlUpdateEuroCup = "INSERT INTO `pefl`.`tournaments` (`id`,  `ff`,  `seaso
     " ON DUPLICATE KEY UPDATE id = VALUES(id), ff = VALUES(ff), season = VALUES(season), type = VALUES(type), name = VALUES(name), z = VALUES(z), pl = VALUES(pl)";
 
 const sqlUpdateRounds = "INSERT INTO `pefl`.`rounds` (`id`, `tournId`,  `name`, `n`) VALUES ? " +
-    " ON DUPLICATE KEY UPDATE id = VALUES(id), tournId = VALUES(tournId), n = VALUES(n), name = VALUES(name)";
+    " ON DUPLICATE KEY UPDATE id = VALUES(id), tournId = VALUES(tournId), name = VALUES(name), n = VALUES(n)";
 
 const sqlUpdateGames = "INSERT INTO `pefl`.`games` (`id`, `t_id`,  `round`, `opp1`, `opp2`, `tv_z`, `href_z`, `score`, `roundType`) VALUES ? " +
     " ON DUPLICATE KEY UPDATE id = VALUES(id), t_id = VALUES(t_id), round = VALUES(round), opp1 = VALUES(opp1), " +

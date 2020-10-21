@@ -1,7 +1,7 @@
 const fs = require('fs');
 module.exports = async results => {
     try {
-        require('./update-cup-bd')(results);
+        await require('./update-cup-bd')(results);
     } catch (error) {
         console.log("/update-cup-bd error - ", error);
         fs.writeFile("update-cup-bd error.log", (new Date().toLocaleString())+"\n"+JSON.stringify(error,null, " ") + "\n\n\n", err=>{if(err)console.log(err);} )

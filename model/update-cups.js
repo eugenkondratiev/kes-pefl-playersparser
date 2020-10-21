@@ -37,7 +37,7 @@ module.exports =    (_nightmare, cupsList, _season) => {
         }
             , Promise.resolve([]))
             .then(() => {
-                res("OK")
+                res(groupsList)
             })
             .catch((err) => {
                 console.log("update national cups error ", err);
