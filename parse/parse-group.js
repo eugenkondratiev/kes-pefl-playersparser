@@ -3,7 +3,7 @@
 
 const { pefl, bodySelecor } = require('./selectors');
 const { getHtml , getSearchParameter , getZ} = require('../utils/getters');
-const {selGroupTours, selGroupTable, selGroupToursList, selGroupTableList} = require('../parse/selectors');
+const {selGroupTours, selGroupTable, selGroupToursList, selGroupTableList, roundGames} = require('../parse/selectors');
 
 const getRoundList = require('../scrap-html/scrap-group-rounds');
 const getMatches = require('../scrap-html/scrap-matches');
@@ -30,13 +30,14 @@ module.exports = function (_nightmare, cupUrl, _cupName) {
 
                 _nightmare.goto(urlGroupTours)
                     .wait(selGroupToursList)
-                    .wait(2000)
+                    .wait(1000)
                     .evaluate(getHtml, bodySelecor)
                     .then(response => {
                         const tournamentList = getRoundList(response);
                         return tournamentList;
                     })
                     .then(list => {
+                        // console.log("roundsList is " , list);
                         const tFF = getSearchParameter(cupUrl, "j");
                         const tType = getSearchParameter(cupUrl, "t");
                         const tSeason = getSearchParameter(cupUrl, "f") || season;

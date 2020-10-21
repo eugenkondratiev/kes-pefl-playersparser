@@ -48,7 +48,8 @@ function formRoundsList(_rounds, _id) {
         const n = parseInt(r);
         list.push([_id + "_" + n, _id, _rounds[r].name, n]);
     }
-    // console.log("roundslist - ", list);
+    console.log("=============================================");
+    console.log("##### roundslist - ", list);
     return list;
 }
 //=============================================================================
