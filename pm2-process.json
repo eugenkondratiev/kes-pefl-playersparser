@@ -1,7 +1,7 @@
 {
     "script" : "index.js",
     "watch": true,
-    "ignore_watch" : ["node_modules", "data", ".git", "desmond_jim.zip", "actionlog.txt"],
+    "ignore_watch" : ["node_modules", "data", ".git", "Logs", "desmond_jim.zip", "actionlog.txt"],
     "watch_options" : {
         "followSymlinks" : false
     },
