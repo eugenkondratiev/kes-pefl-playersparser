@@ -1,6 +1,6 @@
 const Nightmare = require('nightmare');
 
-const nightmare = Nightmare({ show: true });
+const nightmare = Nightmare({ show: false });
 const pefl_auth = 'http://pefl.ru/auth.php';
 const selPeflLogin = 'td.back4 tr:nth-child(2) input[type=text]:nth-child(1)';
 const selPeflPassword = 'td.back4 tr:nth-child(2) input[type=password]:nth-child(2)';

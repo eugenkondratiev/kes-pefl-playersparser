@@ -53,7 +53,7 @@ module.exports = function() {
   
   
           const rows = result.rows.affectedRows ? result.rows.affectedRows : 0;
-          console.log("__dbQuery result", rows, result);
+          // console.log("__dbQuery result", rows, result);
           resolve(rows);
         })
         .catch(error => {

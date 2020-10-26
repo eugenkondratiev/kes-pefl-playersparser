@@ -33,7 +33,7 @@ async function insertPlayersBase(playersArr, _oldBase, _oldMongoBase) {
       // if ( i>11882 & i<11885 || i>8609 & i<8612) console.log(i,player[1], player);
       return player
     });
-    
+
     console.log("playersToBd - ", playersToBd.length);
     console.log(" #### playersToBd[5] -", playersToBd[5]);
 
@@ -45,12 +45,17 @@ async function insertPlayersBase(playersArr, _oldBase, _oldMongoBase) {
     console.log(" #### playersToMongo [5]", playersToMongo[5]);
     const newMongoPLayers = require('./mongo/players-to-mongo-records')(playersToMongo)
     const _diff = require('./calc-players-diffference')(_oldMongoBase, newMongoPLayers);
-    console.log("#####  Different players - ", _diff.changed);
-    fs.writeFile(`data/currentDifferentPlayers-${(new Date()).toLocaleDateString("ru-UA")}.json`, JSON.stringify(_diff.changed), { encoding: "utf8" }, err => { if (err) console.error })
+    console.log("#####  Different players - ", _diff.changed.length);
+    fs.writeFile(`data/currentDifferentPlayers-${(new Date()).toLocaleDateString("ru-UA")}.json`, JSON.stringify(_diff.changed), {
+      encoding: "utf8"
+    }, err => {
+      if (err) console.error
+    })
 
     try {
-      await require('../services/process-possible-new-doubles')( _diff.changed, newMongoPLayers)
-      
+      if (_diff.changed.length < 10000) {
+        await require('../services/process-possible-new-doubles')(_diff.changed, newMongoPLayers)
+      }
     } catch (error) {
       console.log('create bor error error :>> ', error);
     }
@@ -64,7 +69,7 @@ async function insertPlayersBase(playersArr, _oldBase, _oldMongoBase) {
     }
     const result = await dbQuery(insertUpdatePlayersSql, playersToBd)
     const rows = result.rows.affectedRows ? result.rows.affectedRows : 0;
-    console.log("__dbQuery result", rows, result);
+    // console.log("__dbQuery result", rows, result);
     return rows;
   } catch (error) {
     throw Error(error)

@@ -73,7 +73,7 @@ async function main(players) {
                 lastModifiedPlayers: true
             }
         })
-        console.log("mongodb info updated ", updateResult.result);
+        // console.log("mongodb info updated ", updateResult.result);
     } catch (err) {
         console.log("mongodb  updateAllplayers errror", err)
     } finally {

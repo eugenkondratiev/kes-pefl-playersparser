@@ -9,7 +9,7 @@ module.exports = async (_newPlayers, _allBase) => {
 
     const doubles = []
     const { data: _bor, length: _borLength } = playersTree(_allBase);
-    console.log('_bor :>> ', _bor);
+    // console.log('_bor :>> ', _bor);
     fs.writeFile("data/__bor.json", JSON.stringify(_bor.getRoot(), null, " "), err => { if (err) console.log("writeFile error") });
 
     _newPlayers.forEach(pl => {
