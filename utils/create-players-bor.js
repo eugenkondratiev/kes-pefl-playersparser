@@ -8,6 +8,7 @@ module.exports = (playersBase) => {
 
     let _playersInBor = 0;
     playersBase.forEach((element, i) => {
+        if (i===0) console.log(i, element);
         tree.addNode({ word: normName(element.name), data: element })
         _playersInBor++;
     });

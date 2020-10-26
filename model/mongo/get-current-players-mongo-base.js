@@ -9,6 +9,7 @@ module.exports = async ()=>{
     const _playersOldBase = _response || [];
     // console.log(" ## OLD base ", _playersOldBase)
     console.log(" ## OLD base ", _playersOldBase.length)
+    // _client._client.close()
     return _playersOldBase;
        
     } catch (error) {

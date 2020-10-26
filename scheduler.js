@@ -26,7 +26,7 @@ module.exports = function () {
   async function updateAction(logFile, msg, cb) {
     console.log(`${(new Date()).toLocaleString()} ${msg} started`);
     try {
-      await require('./model/update-cups-base')();
+      await cb();
       logIt(msg)
     } catch (error) {
       logIt(error.message)
@@ -35,10 +35,10 @@ module.exports = function () {
 
 
   updateAction("actionlog.txt", "Get players", getPlayers).then(() => true, (err) => console.log("###### - playerBaseUpdateAction", err));
-  setTimeout(() => {
-    updateAction("cups-actionlog.txt", "Update cups", updateCups).then(() => true, err => console.log("###### - cupsUpdateAction", err));
+  // setTimeout(() => {
+  //   updateAction("cups-actionlog.txt", "Update cups", updateCups).then(() => true, err => console.log("###### - cupsUpdateAction", err));
 
-  }, 120000)
+  // }, 120000)
 
   const schDbPing = schedule.scheduleJob(ruleEveryHour, async function () {
     try {

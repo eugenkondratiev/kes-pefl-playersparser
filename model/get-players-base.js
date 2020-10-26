@@ -33,6 +33,7 @@ async function insertPlayersBase(playersArr, _oldBase, _oldMongoBase) {
       // if ( i>11882 & i<11885 || i>8609 & i<8612) console.log(i,player[1], player);
       return player
     });
+    
     console.log("playersToBd - ", playersToBd.length);
     console.log(" #### playersToBd[5] -", playersToBd[5]);
 
@@ -46,6 +47,14 @@ async function insertPlayersBase(playersArr, _oldBase, _oldMongoBase) {
     const _diff = require('./calc-players-diffference')(_oldMongoBase, newMongoPLayers);
     console.log("#####  Different players - ", _diff.changed);
     fs.writeFile(`data/currentDifferentPlayers-${(new Date()).toLocaleDateString("ru-UA")}.json`, JSON.stringify(_diff.changed), { encoding: "utf8" }, err => { if (err) console.error })
+
+    try {
+      await require('../services/process-possible-new-doubles')( _diff.changed, newMongoPLayers)
+      
+    } catch (error) {
+      console.log('create bor error error :>> ', error);
+    }
+
 
     try {
       const mongoUpdateResult = require('./mongo/update-mongo-base')(newMongoPLayers);
@@ -74,6 +83,8 @@ async function updatePlayersBase() {
   let oldMongoBase;
   let playersArray;
   try {
+    const answerClubs = await require('../model/get-clubs-table')();
+
     oldBase = await getCurrentPlayerBase()
   } catch (error) {
     console.log("upload base from DB error")
@@ -86,6 +97,7 @@ async function updatePlayersBase() {
   }
   await parsePlayersBase(jim, nightmare)
   playersArray = await handlePlayersFile();
+
   // nightmare.end();
   await dbQuery("delete FROM pefl.players where id>0; alter table pefl.players AUTO_INCREMENT = 1;")
   try {

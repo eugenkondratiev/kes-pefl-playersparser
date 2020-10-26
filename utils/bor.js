@@ -45,9 +45,11 @@ class Bor {
         }
         return cur;
     }
-    findDouble(name, pairs, node = this.root) {
+    findDouble(_name, _pairs,  node = this.root) {
         // if(!this.searchOne(name)) return null;
-        if (!name) return node.pl ? [...node.pl] : null
+        if (!_name) return node.pl ? [...node.pl] : null
+        const pairs = _pairs || this.doubles;
+        const name = normName(_name);
 
         let result = [];
         const nameLength = name.length;
