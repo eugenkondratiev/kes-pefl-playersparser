@@ -27,9 +27,9 @@ module.exports = function () {
     console.log(`${(new Date()).toLocaleString()} ${msg} started`);
     try {
       await cb();
-      logIt(msg)
+      logIt(msg, logFile)
     } catch (error) {
-      logIt(error.message)
+      logIt(error.message, logFile)
     };
   }
 
