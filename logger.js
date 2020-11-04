@@ -13,7 +13,7 @@ const fs = require('fs');
   
    console.log(dt.toLocaleString(), " ", data);
 
-   const message = "\r\n- " + dt.toLocaleString() + "-" + data;
+   const message = "\r\n- " + dt.toLocaleString("ua-UA",{year:"numeric",month:"2-digit", day:"2-digit", hour:"2-digit", minute:"2-digit", second:"2-digit", } ) + "-" + data;
     fs.appendFile(logFile, message, (err) => {
         if (err) console.log(err.message);
     });

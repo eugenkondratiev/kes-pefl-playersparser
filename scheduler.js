@@ -34,7 +34,7 @@ module.exports = function () {
   }
 
 
-  updateAction("actionlog.txt", "Get players", getPlayers).then(() => true, (err) => console.log("###### - playerBaseUpdateAction", err));
+  updateAction("", "Get players", getPlayers).then(() => true, (err) => console.log("###### - playerBaseUpdateAction", err));
   // setTimeout(() => {
   //   updateAction("cups-actionlog.txt", "Update cups", updateCups).then(() => true, err => console.log("###### - cupsUpdateAction", err));
 
@@ -51,12 +51,12 @@ module.exports = function () {
   });
   // const schGetPlayers = schedule.scheduleJob(ruleEveryHour, function () {
   const schGetPlayers = schedule.scheduleJob(ruleEveryID, function () {
-    updateAction("actionlog.txt", "Get players", getPlayers).then(() => true, (err) => console.log(err));
+    updateAction("", "Get players", getPlayers).then(() => true, (err) => console.log(err));
 
   });
   // const schParseCups = schedule.scheduleJob(ruleEveryHour2, function () {
   const schParseCups = schedule.scheduleJob(ruleEveryWeek, async function () {
-    updateAction("cups-actionlog.txt", "Update cups", updateCups).then(() => true, (err) => console.log(err));
+    updateAction("cups-", "Update cups", updateCups).then(() => true, (err) => console.log(err));
     ;
   });
 
