@@ -16,8 +16,8 @@ function compareBases(_old, _new) {
     const differentRecordsByIdAndName = _new.filter((pl, i) => !_old[i] || pl._id !== _old[i]._id || pl.name !== _old[i].name);
 
     const oldLength = sameRecordsByIdAndName.length;
-    // console.log(oldLength, differentRecordsByIdAndName.length, sameRecordsByIdAndName.length + differentRecordsByIdAndName.length);
-    // console.log(differentRecordsByIdAndName);
+    console.log(oldLength, differentRecordsByIdAndName.length, sameRecordsByIdAndName.length + differentRecordsByIdAndName.length);
+    console.log(differentRecordsByIdAndName);
     const playersWithChanges = [];
     const playersMovedByOrder = [];
 

@@ -6,15 +6,15 @@ const fs = require('fs');
 const logIt = require('./logger');
 
 const ruleEveryID = {
-  hour: 3,
+  hour: 4,
   minute: 14,
   second: 20,
   dayOfWeek: [2, 4, 6]
 };
 const ruleEveryWeek = {
-  hour: 4,
-  minute: 5,
-  second: 6,
+  hour: 5,
+  minute: 6,
+  second: 7,
   dayOfWeek: 0
 };
 

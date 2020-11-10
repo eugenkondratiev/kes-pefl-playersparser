@@ -51,7 +51,7 @@ async function main(players) {
     const mongoClient = await require('./db-mongo')();
     const collection = mongoClient._db.collection(COLLECTION);
 
-    await collection.remove({});
+    await collection.deleteMany({});
     console.log("DELETE players DONE");
 
     try {
