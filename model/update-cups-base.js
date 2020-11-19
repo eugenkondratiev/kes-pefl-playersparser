@@ -20,12 +20,12 @@ module.exports = async () => {
         cupsRefs = await parseTournaments(nightmare);
         currentSeason = await parseSeason(nightmare, cupsRefs.refToCurrentSeason);
         console.log("######  Current season   - ", currentSeason);
-        console.log('###update -cups-base  cupsRefs :>> ', cupsRefs);
-        await writeFile(`data/cupsRefs-${startTime.toLocaleDateString()}.json`, JSON.stringify(cupsRefs, null, " "));
+        // console.log('###update -cups-base  cupsRefs :>> ', cupsRefs);
+        // await writeFile(`data/cupsRefs-${startTime.toLocaleDateString()}.json`, JSON.stringify(cupsRefs, null, " "));
 
         allCupsRefs = await parseLocalCups(cupsRefs.ffList, nightmare);
-        await writeFile(`data/international-cups-list-${startTime.toLocaleDateString()}.json`, JSON.stringify(cupsRefs.ffList.ec, null, " "));
-        await writeFile(`data/ff-cups-list-${startTime.toLocaleDateString()}.json`, JSON.stringify(allCupsRefs, null, " "));
+        // await writeFile(`data/international-cups-list-${startTime.toLocaleDateString()}.json`, JSON.stringify(cupsRefs.ffList.ec, null, " "));
+        // await writeFile(`data/ff-cups-list-${startTime.toLocaleDateString()}.json`, JSON.stringify(allCupsRefs, null, " "));
         console.log("Done. Calculation time", new Date() - startTime, "ms");
 
         // console.time("Start national cups ");

@@ -35,14 +35,14 @@ async function insertPlayersBase(playersArr, _oldBase, _oldMongoBase) {
     });
 
     console.log("playersToBd - ", playersToBd.length);
-    console.log(" #### playersToBd[5] -", playersToBd[5]);
+    // console.log(" #### playersToBd[5] -", playersToBd[5]);
 
     const playersToMongo = playersToBd.map((row, i) => {
       const mongoRow = [...row];
       mongoRow.unshift(i);
       return mongoRow
     });
-    console.log(" #### playersToMongo [5]", playersToMongo[5]);
+    // console.log(" #### playersToMongo [5]", playersToMongo[5]);
     const newMongoPLayers = require('./mongo/players-to-mongo-records')(playersToMongo)
     const _diff = require('./calc-players-diffference')(_oldMongoBase, newMongoPLayers);
     console.log("#####  Different players - ", _diff.changed.length);
