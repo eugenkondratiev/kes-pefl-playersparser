@@ -22,7 +22,7 @@ const parsePlayersBase = require('../parse/parse-players-base');
 async function insertPlayersBase(playersArr, _oldBase, _oldMongoBase) {
   try {
     // const ff = 216;
-    console.log("playersArr[5]  ", playersArr[5])
+    // console.log("playersArr[5]  ", playersArr[5])
     const playersToBd = playersArr.map((el, i) => {
       const player = el;
       player.forEach((col, i, arr) => arr[i] = col.replace(/\,/, ''));
@@ -46,11 +46,11 @@ async function insertPlayersBase(playersArr, _oldBase, _oldMongoBase) {
     const newMongoPLayers = require('./mongo/players-to-mongo-records')(playersToMongo)
     const _diff = require('./calc-players-diffference')(_oldMongoBase, newMongoPLayers);
     console.log("#####  Different players - ", _diff.changed.length);
-    fs.writeFile(`data/currentDifferentPlayers-${(new Date()).toLocaleDateString("ru-UA")}.json`, JSON.stringify(_diff.changed), {
-      encoding: "utf8"
-    }, err => {
-      if (err) console.error
-    })
+    // fs.writeFile(`data/currentDifferentPlayers-${(new Date()).toLocaleDateString("ru-UA")}.json`, JSON.stringify(_diff.changed), {
+    //   encoding: "utf8"
+    // }, err => {
+    //   if (err) console.error
+    // })
 
     try {
       if (_diff.changed.length < 10000) {

@@ -28,10 +28,10 @@ module.exports = async () => {
         // await writeFile(`data/ff-cups-list-${startTime.toLocaleDateString()}.json`, JSON.stringify(allCupsRefs, null, " "));
         console.log("Done. Calculation time", new Date() - startTime, "ms");
 
-        // console.time("Start national cups ");
-        // await parseNationalCups(nightmare, allCupsRefs)
+        console.time("Start national cups ");
+        await parseNationalCups(nightmare, allCupsRefs)
 
-        // console.timeEnd("Start national cups ");
+        console.timeEnd("Start national cups ");
 
         console.time("euro-cups ");
         const groupsList = await parseEuroCups(nightmare, cupsRefs.ffList.ec, currentSeason)

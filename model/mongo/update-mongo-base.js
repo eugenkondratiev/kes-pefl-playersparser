@@ -22,7 +22,7 @@ function updateAllplayers(_collection, newPlayersBase) {
 
         try {
             
-            console.log("newPlayersBase[5] - ", newPlayersBase[5])
+            // console.log("newPlayersBase[5] - ", newPlayersBase[5])
             const result = await _collection.insertMany(
                 newPlayersBase, {}
             );

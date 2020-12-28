@@ -12,7 +12,7 @@ const ruleEveryID = {
   dayOfWeek: [2, 4, 6]
 };
 const ruleEveryWeek = {
-  hour: 5,
+  hour: 13,
   minute: 6,
   second: 7,
   dayOfWeek: 0
@@ -35,10 +35,10 @@ module.exports = function () {
 
 
   updateAction("", "Get players", getPlayers).then(() => true, (err) => console.log("###### - playerBaseUpdateAction", err));
-  // setTimeout(() => {
-  //   updateAction("cups-actionlog.txt", "Update cups", updateCups).then(() => true, err => console.log("###### - cupsUpdateAction", err));
+ // setTimeout(() => {
+ //   updateAction("cups", "Update cups", updateCups).then(() => true, err => console.log("###### - cupsUpdateAction", err));
 
-  // }, 120000)
+ // }, 120000)
 
   const schDbPing = schedule.scheduleJob(ruleEveryHour, async function () {
     try {
