@@ -15,5 +15,5 @@ pefl-login*
 Logs
 config*.json
 config*.*
-
+tests
 

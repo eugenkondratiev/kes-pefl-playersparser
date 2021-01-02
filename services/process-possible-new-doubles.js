@@ -1,6 +1,8 @@
 const playersTree = require('../utils/create-players-bor');
 const fs = require('fs');
 const AGE_DIFFERENCE = 3;
+const formPlayerString = require('../view/form-mongo-player-string');
+
 
 module.exports = async (_newPlayers, _allBase) => {
     const _pairs = await require('../model/mongo/get-pairs-mongo')();
@@ -17,10 +19,11 @@ module.exports = async (_newPlayers, _allBase) => {
         if (_currentDoubles.length < 2) return;
         console.log("------------------------------");
         console.log(pl.name + '  doubles :>> ', _currentDoubles);
-        const post = `Тест. 
-        Автоматический пост.
-         Возможные дубликаты\n  
-         ${JSON.stringify(_currentDoubles, null, " ")}`;
+        const post = `Тест. Автоматический пост. Возможные дубликаты\n  
+         ${
+            // JSON.stringify(_currentDoubles, null, " ")
+            _currentDoubles.reduce((player,i)=>`${i+1} ${player._id} ${formPlayerString(player)}\n`, "")
+            }`;
         require('./publish-post-to-pefl')(post, nightmare);
     });
 
