@@ -46,11 +46,11 @@ async function insertPlayersBase(playersArr, _oldBase, _oldMongoBase) {
     const newMongoPLayers = require('./mongo/players-to-mongo-records')(playersToMongo)
     const _diff = require('./calc-players-diffference')(_oldMongoBase, newMongoPLayers);
     console.log("#####  Different players - ", _diff.changed.length);
-    // fs.writeFile(`data/currentDifferentPlayers-${(new Date()).toLocaleDateString("ru-UA")}.json`, JSON.stringify(_diff.changed), {
-    //   encoding: "utf8"
-    // }, err => {
-    //   if (err) console.error
-    // })
+    fs.writeFile(`data/currentDifferentPlayers-${(new Date()).toLocaleDateString("ru-UA")}.json`, JSON.stringify(_diff.changed), {
+      encoding: "utf8"
+    }, err => {
+      if (err) console.error
+    })
 
     try {
       if (_diff.changed.length < 10000) {
