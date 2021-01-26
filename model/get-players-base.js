@@ -46,13 +46,17 @@ async function insertPlayersBase(playersArr, _oldBase, _oldMongoBase) {
     const newMongoPLayers = require('./mongo/players-to-mongo-records')(playersToMongo)
     const _diff = require('./calc-players-diffference')(_oldMongoBase, newMongoPLayers);
     console.log("#####  Different players - ", _diff.changed.length);
-    fs.writeFile(`data/currentDifferentPlayers-${(new Date()).toLocaleDateString("ru-UA")}.json`, JSON.stringify(_diff.changed), {
-      encoding: "utf8"
-    }, err => {
-      if (err) console.error
-    })
+
 
     try {
+
+      // fs.writeFile(`data/currentDifferentPlayers-${(new Date()).toLocaleDateString()}.json`, JSON.stringify(_diff.changed), {
+        fs.writeFile(`data/currentDifferentPlayers/_${(new Date()).toLocaleDateString("ru-UA",{year:"numeric",month:"2-digit", day:"2-digit"})}.json`, JSON.stringify(_diff.changed), {
+        encoding: "utf8"
+      }, err => {
+        if (err) console.error
+      })
+
       if (_diff.changed.length < 10000) {
         await require('../services/process-possible-new-doubles')(_diff.changed, newMongoPLayers)
       }
