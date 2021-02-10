@@ -17,6 +17,7 @@ module.exports = (_nightmare) => {
         _nightmare
             .goto(tournamentsPageRef)
             // .goto(quaterUrl)
+            .wait(1111)
             .wait(tSelector)
             // .wait(mainFrame)
             .evaluate(getHtml, bodySelecor)

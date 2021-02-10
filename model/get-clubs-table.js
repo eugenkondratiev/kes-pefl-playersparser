@@ -13,6 +13,7 @@ module.exports = function() {
             result.rows.forEach(function(row, i, arr) {
                 const clubId = parseInt(row[ID]);
                 global.clubsBase[clubId] = row;
+                // console.log("globalClubs - ", clubsBase.length);
         }); ;
         } catch (error) {
             console.log(error);
@@ -31,8 +32,10 @@ module.exports = function() {
     })
     .then((nations) => {
         nations.rows.forEach(nation => {
-            nationBase[nation[ID]] = nation;
-        })
+            nationBase[parseInt(nation[ID])] = nation;
+        });
+        console.log("nations -", nationBase.length)
+        console.log("last nation -", nationBase[nationBase.length -1 ])
         res(nationBase)
     })
     .catch(err => {

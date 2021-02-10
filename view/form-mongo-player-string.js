@@ -20,25 +20,55 @@ module.exports = (pl) => {
     // const pretty = Object.assign({}, pl);
     // const { _id, name, nation, age, position, team, ff } = pl;
     const pretty = [];
-    const { _id, name, nation, age, position, team, ff, school, pens, freeRef,
-        _age = +age, ffId = +ff, nationId = +nation, teamId = +team, } = pl;
+    const {
+        _id,
+        name,
+        nation,
+        age,
+        position,
+        team,
+        ff,
+        school,
+        pens,
+        freeRef,
+        _age = +age,
+        ffId = +ff,
+        nationId = +nation,
+        teamId = +team,
+    } = pl;
 
     const _nation = global.nationBase[nationId];
-    const _ff = ffId > -1 ? global.nationBase[ffId] : undefined;
-    const _club = teamId > 0 ? global.clubsBase[teamId] : undefined;
+    let _ff, _club;
+    try {
+        console.log("__nation - ", nationId, "\n\n", _nation)
+    } catch (error) {
+        ;
+    }
+    try {
+        console.log("__nation - ", nationId, "\n\n", _nation)
+
+        _ff = ffId > -1 ? global.nationBase[ffId] : undefined;
+        _club = teamId > 0 ? global.clubsBase[teamId] : undefined;
+        console.log(" _club - ", teamId, _club);
+
+    } catch (error) {
+        console.log("error _club _ff  ", error);
+    }
+
     // TODO   - procceed ......
     pretty.push(
-        freeRef 
-        ? `[url=${pefl + freeRef}]${name} [/url]`
-        : name
+        freeRef ?
+        `[url=${pefl + freeRef}]${name} [/url]` :
+        name
     )
     pretty.push(`${_nation[1]} [img]system/img/flags/mod/${nationId}.gif[/img]`);
-    pretty.push(position + _age);
+    pretty.push(position + " " + _age);
     school ? pretty.push(`школьник`) : undefined;
     pens ? pretty.push(`пенс`) : undefined;
-    _club 
-    ? pretty.push(`[url=${getClubUrl(teamId, _club[2])}]${_club[1]} [/url] [img]system/img/flags/mod/${ffId}.gif[/img]` )
-    : pretty.push(`свободный`);        
+    _club
+        ?
+        pretty.push(`[url=${getClubUrl(teamId, _club[2])}]${_club[1]} [/url] [img]system/img/flags/mod/${ffId}.gif[/img]`) :
+        pretty.push(`свободный`);
 
 
 

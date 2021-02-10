@@ -18,6 +18,7 @@ const handlePlayersFile = require('../parse/handle-players-file');
 const getCurrentPlayerBase = require('./get-current-players-main-base');
 const getCurrentPlayerMongoBase = require('./mongo/get-current-players-mongo-base');
 const parsePlayersBase = require('../parse/parse-players-base');
+const formMongoPlayerString = require('../view/form-mongo-player-string');
 
 async function insertPlayersBase(playersArr, _oldBase, _oldMongoBase) {
   try {
@@ -46,12 +47,18 @@ async function insertPlayersBase(playersArr, _oldBase, _oldMongoBase) {
     const newMongoPLayers = require('./mongo/players-to-mongo-records')(playersToMongo)
     const _diff = require('./calc-players-diffference')(_oldMongoBase, newMongoPLayers);
     console.log("#####  Different players - ", _diff.changed.length);
+    try {
+      console.log("!!!!!!! newMongoPLayers[88].name  - ", newMongoPLayers[88].name);
 
+      console.log("!!!!!!!!!!!!!!!!!!!!!!!!!!!!  newMongoPLayers[88]  - ", formMongoPlayerString(newMongoPLayers[88]))
+    } catch (error) {
+      console.log("  newMongoPlayers88 error " , error);
+    }
 
     try {
 
       // fs.writeFile(`data/currentDifferentPlayers-${(new Date()).toLocaleDateString()}.json`, JSON.stringify(_diff.changed), {
-        fs.writeFile(`data/currentDifferentPlayers/_${(new Date()).toLocaleDateString("ru-UA",{year:"numeric",month:"2-digit", day:"2-digit"})}.json`, JSON.stringify(_diff.changed), {
+      fs.writeFile(`data/currentDifferentPlayers/_${(new Date()).toLocaleDateString("ru-UA",{year:"numeric",month:"2-digit", day:"2-digit"})}.json`, JSON.stringify(_diff.changed), {
         encoding: "utf8"
       }, err => {
         if (err) console.error

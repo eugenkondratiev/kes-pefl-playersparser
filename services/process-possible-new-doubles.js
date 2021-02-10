@@ -6,16 +6,31 @@ const formPlayerString = require('../view/form-mongo-player-string');
 
 module.exports = async (_newPlayers, _allBase) => {
     const _pairs = await require('../model/mongo/get-pairs-mongo')();
+    console.log(' ###### Pairs  - ', _pairs);
 
     const nightmare = require('../parse/pefl-auth')();
 
     const doubles = []
-    const { data: _bor, length: _borLength } = playersTree(_allBase);
-    // console.log('_bor :>> ', _bor);
-    fs.writeFile("data/__bor.json", JSON.stringify(_bor.getRoot(), null, " "), err => { if (err) console.log("writeFile error") });
 
+    const {
+        data: _bor,
+        length: _borLength
+    } = playersTree(_allBase);
+    console.log('_bor :>> ', _borLength);
+
+    fs.writeFile("data/__bor.json", JSON.stringify(_bor.getRoot(), null, " "), err => {
+        if (err) console.log("writeFile error")
+    });
+    try {
+        console.log(formPlayerString(_newPlayers[0]));
+        
+    } catch (error) {
+        console.log("## No new players")
+    }
     _newPlayers.forEach(pl => {
         const _currentDoubles = _bor.findDouble(pl.name, _pairs).filter(dbl => Math.abs(+pl.age - dbl.age) <= AGE_DIFFERENCE)
+        console.log(`${pl.name} - _currentDoubles.length  - ${_currentDoubles.length}`);
+
         if (_currentDoubles.length < 2) return;
         console.log("------------------------------");
         console.log(pl.name + '  doubles :>> ', _currentDoubles);
