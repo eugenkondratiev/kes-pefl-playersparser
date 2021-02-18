@@ -36,6 +36,8 @@ module.exports = (pl) => {
         nationId = +nation,
         teamId = +team,
     } = pl;
+//####################
+console.log("### test  pl  - " , pl, nationId, teamId);
 
     const _nation = global.nationBase[nationId];
     let _ff, _club;

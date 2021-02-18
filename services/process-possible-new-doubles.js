@@ -22,10 +22,40 @@ module.exports = async (_newPlayers, _allBase) => {
         if (err) console.log("writeFile error")
     });
     try {
-        console.log("### test player string  :  " , formPlayerString(_newPlayers[0]));
+        // console.log("### test player string  :  ", formPlayerString(_newPlayers[0]));
+        const testDoubles = [{
+                _id: 54679,
+                name: 'Илья Шевцов',
+                nation: '200',
+                age: '22',
+                position: 'LC MF',
+                team: '870',
+                ff: '192'
+            },
+            {
+                _id: 59194,
+                name: 'Илья Шевцов',
+                nation: '200',
+                age: '19',
+                position: 'LCR DM',
+                team: '1355',
+                ff: '200',
+                school: true
+            }
+        ]
+        console.log("------ try to form test post  - ");
+
+        const post = `Тест. Автоматический пост. Возможные дубликаты\n  
+        ${
+           // JSON.stringify(_currentDoubles, null, " ")
+           testDoubles.reduce((acc, player,i)=>`${acc}\n  ${i+1} ${player._id} ${formPlayerString(player)}\n`, "")
+           }`;
+
+        console.log("#####  test post  - ", post);
+
 
     } catch (error) {
-        console.log("## No new players")
+        console.log("## No new players - ", error)
     }
     _newPlayers.forEach(pl => {
         const _currentDoubles = _bor.findDouble(pl.name, _pairs).filter(dbl => Math.abs(+pl.age - dbl.age) <= AGE_DIFFERENCE)
