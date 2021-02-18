@@ -63,8 +63,6 @@ async function insertPlayersBase(playersArr, _oldBase, _oldMongoBase) {
       }, err => {
         if (err) console.error
       })
-      //### for test
-      await require('../services/process-possible-new-doubles')([], newMongoPLayers)
 
       if (_diff.changed.length < 10000) {
         await require('../services/process-possible-new-doubles')(_diff.changed, newMongoPLayers)
