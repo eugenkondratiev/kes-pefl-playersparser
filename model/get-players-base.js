@@ -47,13 +47,13 @@ async function insertPlayersBase(playersArr, _oldBase, _oldMongoBase) {
     const newMongoPLayers = require('./mongo/players-to-mongo-records')(playersToMongo)
     const _diff = require('./calc-players-diffference')(_oldMongoBase, newMongoPLayers);
     console.log("#####  Different players - ", _diff.changed.length);
-    try {
-      console.log("!!!!!!! newMongoPLayers[88].name  - ", newMongoPLayers[88].name);
+    // try {
+    //   console.log("!!!!!!! newMongoPLayers[88].name  - ", newMongoPLayers[88].name);
 
-      console.log("!!!!!!!!!!!!!!!!!!!!!!!!!!!!  newMongoPLayers[88]  - ", formMongoPlayerString(newMongoPLayers[88]))
-    } catch (error) {
-      console.log("  newMongoPlayers88 error " , error);
-    }
+    //   console.log("!!!!!!!!!!!!!!!!!!!!!!!!!!!!  newMongoPLayers[88]  - ", formMongoPlayerString(newMongoPLayers[88]))
+    // } catch (error) {
+    //   console.log("  newMongoPlayers88 error " , error);
+    // }
 
     try {
 

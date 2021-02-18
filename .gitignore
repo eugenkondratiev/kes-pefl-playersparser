@@ -16,4 +16,7 @@ Logs
 config*.json
 config*.*
 tests
+*.log
+**/*/*.log
+
 

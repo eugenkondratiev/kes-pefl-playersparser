@@ -22,8 +22,8 @@ module.exports = async (_newPlayers, _allBase) => {
         if (err) console.log("writeFile error")
     });
     try {
-        console.log(formPlayerString(_newPlayers[0]));
-        
+        console.log("### test player string  :  " , formPlayerString(_newPlayers[0]));
+
     } catch (error) {
         console.log("## No new players")
     }
