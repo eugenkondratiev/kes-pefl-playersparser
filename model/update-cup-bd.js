@@ -1,4 +1,3 @@
-
 // const { pefl } = require('../parse/selectors')
 // const dbPool = require('./connection-pool-eco')();
 const dbQuery = require('./db').dbQuery;
@@ -31,7 +30,9 @@ function formGamesList(_games, _id) {
             const href_z = (type == "g2") ? g.secondGameObj.z : g.firstGameObj.z;
             const score = (type == "g2") ? g.games[0] : g.games;
             const record = [id, _id, round, opp1, opp2, tv_z, href_z, score, type];
-            if (record.includes(NaN))  {console.log("NaN record - " , g, record)};
+            if (record.includes(NaN)) {
+                console.log("NaN record - ", g, record)
+            };
             // console.log("game record - ", record, _clubs[opp1], _clubs[opp2]);
             if (record[0]) list.push(record);
         } catch (error) {
@@ -76,10 +77,12 @@ async function updateCup(data) {
     try {
         const res1 = await dbQuery(sqlCup, [tRecord]);
         // console.log("res1 - ", res1);
-        const res2 = await dbQuery(sqlUpdateRounds, formRoundsList(data.rounds, id));
+        const roundsList = formRoundsList(data.rounds, id)
+        if (roundsList.length) await dbQuery(sqlUpdateRounds, roundsList);
         // console.log("res2 - ", res2);
+        const gamesList = formGamesList(data.games, id);
 
-        const res3 = await dbQuery(sqlUpdateGames, formGamesList(data.games, id));
+        if (gamesList.length) await dbQuery(sqlUpdateGames, gamesList);
         // console.log("res3 - ", res3);
         // dbPool.end();
     } catch (error) {

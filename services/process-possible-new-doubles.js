@@ -34,7 +34,7 @@ module.exports = async (_newPlayers, _allBase) => {
         if (_currentDoubles.length < 2) return;
         console.log("------------------------------");
         console.log(pl.name + '  doubles :>> ', _currentDoubles);
-        const post = `Тест. Автоматический пост. Возможные дубликаты\n  
+        const post = `Автоматический пост. Возможные дубликаты\n  
          ${
             // JSON.stringify(_currentDoubles, null, " ")
             _currentDoubles.reduce((acc, player,i)=>`${acc}\n  ${i+1} ${player._id} ${formPlayerString(player)}\n`, "")
