@@ -35,6 +35,7 @@ module.exports = {
     selGroupTableList : 'td.menudown.back2',
     selGroupFinalTable : "#divtable > tbody > tr:not(:first-child) a",
     selDbErrorsTopic : "http://pefl.ru/forums.php?m=posts&q=175715&n=last",
+    selDoublesTopic : "http://pefl.ru/forums.php?m=posts&q=279230&n=last",
     selPostTExt : "#tex",
     
 }

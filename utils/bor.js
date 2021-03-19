@@ -45,7 +45,7 @@ class Bor {
         }
         return cur;
     }
-    findDouble(_name, _pairs,  node = this.root) {
+    findDouble(_name, _pairs, isOneNation=false, node = this.root) {
         // if(!this.searchOne(name)) return null;
         if (!_name) return node.pl ? [...node.pl] : null
         const pairs = _pairs || this.doubles;
@@ -68,12 +68,12 @@ class Bor {
                 const alternativeBranch = this.searchNode(pairedSymbol, node);
                 if (alternativeBranch) {
 
-                    const doubleOfSubstring = this.findDouble(name.slice(d), pairs, alternativeBranch);
+                    const doubleOfSubstring = this.findDouble(name.slice(d), pairs,isOneNation, alternativeBranch);
                     doubleOfSubstring ? result = [...result, ...doubleOfSubstring] : undefined
                 }
             }
         }
-        const mainBranch = node[name[0]] ? this.findDouble(slicedName, pairs, node[name[0]]) : null;
+        const mainBranch = node[name[0]] ? this.findDouble(slicedName, pairs, isOneNation ,node[name[0]]) : null;
         result = mainBranch ? [...result, ...mainBranch] : result;
 
         return result.length > 0 ? result : null
