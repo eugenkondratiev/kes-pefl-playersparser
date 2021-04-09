@@ -16,21 +16,13 @@ module.exports = (_nightmare) => {
 
         _nightmare
             .goto(tournamentsPageRef)
-            // .goto(quaterUrl)
             .wait(1111)
             .wait(tSelector)
-            // .wait(mainFrame)
             .evaluate(getHtml, bodySelecor)
-            // .end()
             .then(htmlCode => {
-                console.log("then->  !!!!! start getCupsRefs");
                 const ffList = getCupsRefs(htmlCode)
                 const refToCurrentSeason = getCzRef(htmlCode)
-                //  console.table(oneRoundGames );
-                // console.table( getRoundList(response));
-                // nightmare.end();
                 res({ ffList: ffList, refToCurrentSeason: pefl + refToCurrentSeason });
-                // console.log( getPlayers(response));
             })
             .catch(err => {
                 console.log(" parse tornament error - ", err);

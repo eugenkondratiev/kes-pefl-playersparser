@@ -4,16 +4,12 @@ getRoundList
 const { getParameter,getRoundName, getSearchParameter} = require('../utils/getters');
 const { selID, cupRounds, cupGroups} = require('../parse/selectors');
 
-
 module.exports =  (html,_tournamentName, _tournamentNumber) => {
     try {
       data = [];
       hrefs = [];
       const $ = require('cheerio').load(html);
       const selRoundsList = cupRounds + ' > tbody > tr'
-  
-      // console.log("ID = ", $(selID).text().match(/(?<=\()\d+(?=й)/g)[0]);
-  
       $(selRoundsList).each((i, round) => {
         const roundRef = $(round).find("td > a").attr("href");
         const ff = getParameter(roundRef, "j");
@@ -41,14 +37,11 @@ module.exports =  (html,_tournamentName, _tournamentNumber) => {
             const groupId = getSearchParameter(groupRef, 'j');
     
             groups.push({ name: _tournamentName + ". Группа " + groupLetter, j: groupId, gr: teams.join('|'), ref: groupRef, tournament: _tournamentNumber });
-            // groups.push({ name: groupLetter, j: groupId, gr: teams.join('|'), ref: groupRef });
             grHrefs.push(groupRef);
           }
         })
         roundslist.groups = { data: groups, hrefs: grHrefs };
-
       }
-      // console.log("roundslist  - ", roundslist);
       return roundslist;
     } catch (error) {
       console.log(error.message);

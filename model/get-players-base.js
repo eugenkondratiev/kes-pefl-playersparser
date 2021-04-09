@@ -22,42 +22,28 @@ const formMongoPlayerString = require('../view/form-mongo-player-string');
 
 async function insertPlayersBase(playersArr, _oldBase, _oldMongoBase) {
   try {
-    // const ff = 216;
-    // console.log("playersArr[5]  ", playersArr[5])
     const playersToBd = playersArr.map((el, i) => {
       const player = el;
       player.forEach((col, i, arr) => arr[i] = col.replace(/\,/, ''));
       player[1] = player[0] === '' ? player[1] : player[0] + ' ' + player[1];
       if (player[7] == '') player[7] = '-1';
-      // if (player[7] == '-1') console.log(i, player);
       player.shift();
-      // if ( i>11882 & i<11885 || i>8609 & i<8612) console.log(i,player[1], player);
       return player
     });
 
     console.log("playersToBd - ", playersToBd.length);
-    // console.log(" #### playersToBd[5] -", playersToBd[5]);
 
     const playersToMongo = playersToBd.map((row, i) => {
       const mongoRow = [...row];
       mongoRow.unshift(i);
       return mongoRow
     });
-    // console.log(" #### playersToMongo [5]", playersToMongo[5]);
     const newMongoPLayers = require('./mongo/players-to-mongo-records')(playersToMongo)
     const _diff = require('./calc-players-diffference')(_oldMongoBase, newMongoPLayers);
     console.log("#####  Different players - ", _diff.changed.length);
-    // try {
-    //   console.log("!!!!!!! newMongoPLayers[88].name  - ", newMongoPLayers[88].name);
-
-    //   console.log("!!!!!!!!!!!!!!!!!!!!!!!!!!!!  newMongoPLayers[88]  - ", formMongoPlayerString(newMongoPLayers[88]))
-    // } catch (error) {
-    //   console.log("  newMongoPlayers88 error " , error);
-    // }
 
     try {
 
-      // fs.writeFile(`data/currentDifferentPlayers-${(new Date()).toLocaleDateString()}.json`, JSON.stringify(_diff.changed), {
       fs.writeFile(`data/currentDifferentPlayers/_${(new Date()).toLocaleDateString("ru-UA",{year:"numeric",month:"2-digit", day:"2-digit"})}.json`, JSON.stringify(_diff.changed), {
         encoding: "utf8"
       }, err => {
@@ -80,7 +66,6 @@ async function insertPlayersBase(playersArr, _oldBase, _oldMongoBase) {
     }
     const result = await dbQuery(insertUpdatePlayersSql, playersToBd)
     const rows = result.rows.affectedRows ? result.rows.affectedRows : 0;
-    // console.log("__dbQuery result", rows, result);
     return rows;
   } catch (error) {
     throw Error(error)
@@ -131,5 +116,4 @@ async function updatePlayersBase() {
   };
 }
 
-// updatePlayersBase();
 module.exports = updatePlayersBase;

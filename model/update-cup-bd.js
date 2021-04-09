@@ -19,8 +19,6 @@ function formGamesList(_games, _id) {
     const list = [];
     _games.forEach(g => {
         try {
-            // console.log("g  - ", g);
-
             const type = (g.games.length == 2) ? "g2" : "g1";
             const id = (type == "g2") ? g.secondGameObj.j : g.firstGameObj.j;
             const round = parseInt(g.roundID);
@@ -33,12 +31,10 @@ function formGamesList(_games, _id) {
             if (record.includes(NaN)) {
                 console.log("NaN record - ", g, record)
             };
-            // console.log("game record - ", record, _clubs[opp1], _clubs[opp2]);
             if (record[0]) list.push(record);
         } catch (error) {
             console.log("### update-cup-bd", error)
         }
-
     });
     return list;
 }
@@ -50,18 +46,16 @@ function formRoundsList(_rounds, _id) {
         list.push([_id + "_" + n, _id, _rounds[r].name, n]);
     }
     console.log("=============================================");
-    console.log("##### roundslist - ", list);
+    console.log("##### roundslist - ", list.length);
     return list;
 }
 //=============================================================================
-// const formCupDoc = reqiure('./utils/form-cup-document.js');
 
 async function updateCup(data) {
     const id = data.id;
     console.log("CUP ID - ", id, "data.id  -", data.id);
-    // console.log("data  -", data);
     const parameters = data.id.split('_');
-    console.log("parameters  - ", parameters);
+    // console.log("parameters  - ", parameters);
 
     const tRecord = [id, parseInt(parameters[1]), parseInt(parameters[2]), parameters[0], data.name, data.z];
     let sqlCup;
@@ -72,26 +66,19 @@ async function updateCup(data) {
         sqlCup = sqlUpdateCup
     }
 
-    console.log("tRecord  - ", tRecord);
+    // console.log("tRecord  - ", tRecord);
 
     try {
         const res1 = await dbQuery(sqlCup, [tRecord]);
-        // console.log("res1 - ", res1);
         const roundsList = formRoundsList(data.rounds, id)
         if (roundsList.length) await dbQuery(sqlUpdateRounds, roundsList);
-        // console.log("res2 - ", res2);
         const gamesList = formGamesList(data.games, id);
 
         if (gamesList.length) await dbQuery(sqlUpdateGames, gamesList);
-        // console.log("res3 - ", res3);
-        // dbPool.end();
     } catch (error) {
         console.log("dbQuery  - ", error);
-        // dbPool.end();
     } finally {
         ;
     }
 }
-
-
 module.exports = updateCup;

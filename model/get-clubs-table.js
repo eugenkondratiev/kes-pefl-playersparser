@@ -34,8 +34,8 @@ module.exports = function() {
         nations.rows.forEach(nation => {
             nationBase[parseInt(nation[ID])] = nation;
         });
-        console.log("nations -", nationBase.length)
-        console.log("last nation -", nationBase[nationBase.length -1 ])
+        // console.log("nations -", nationBase.length)
+        // console.log("last nation -", nationBase[nationBase.length -1 ])
         res(nationBase)
     })
     .catch(err => {

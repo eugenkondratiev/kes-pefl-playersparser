@@ -25,8 +25,8 @@ module.exports = function (_nightmare, cupUrl, _cupName) {
                 urlGroupTours = pefl + $(selGroupTours).attr("href");
                 urlGroupTable = pefl + $(selGroupTable).attr("href");
                 season = getSearchParameter(urlGroupTours, "f");;
-                console.log("urlGroupTours - ", urlGroupTours);
-                console.log("urlGroupTable - ", urlGroupTable);
+                // console.log("urlGroupTours - ", urlGroupTours);
+                // console.log("urlGroupTable - ", urlGroupTable);
 
                 _nightmare.goto(urlGroupTours)
                     .wait(selGroupToursList)
@@ -37,13 +37,11 @@ module.exports = function (_nightmare, cupUrl, _cupName) {
                         return tournamentList;
                     })
                     .then(list => {
-                        // console.log("roundsList is " , list);
                         const tFF = getSearchParameter(cupUrl, "j");
                         const tType = getSearchParameter(cupUrl, "t");
                         const tSeason = getSearchParameter(cupUrl, "f") || season;
                         const cupZ = getZ(cupUrl);
                         const cupId = [tType, tFF, tSeason].join('_');
-                        console.log(cupId, "--------------------  z", cupZ);
                         const rounds = {};
                         list.data.forEach(r => {
                             const _round = { ff: r.ff, name: r.roundName };
@@ -69,8 +67,6 @@ module.exports = function (_nightmare, cupUrl, _cupName) {
                                     .evaluate(getHtml, bodySelecor)
                                     .then(response => {
                                         const placesString = getTable(response);
-                                        console.log("!!!!   ", cupId, "-", _cupName, " - ", cupZ);
-
                                         resolve({ id: cupId, name: _cupName, z: cupZ, rounds: rounds, games: results, pl: placesString });
                                     })
                                     .catch(console.err);

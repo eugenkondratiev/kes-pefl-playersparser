@@ -13,17 +13,12 @@ module.exports = (cupsList, _nightmare) => {
         console.log("=====================================================");
         cupsList.cups.reduce(function (acc, url) {
             return acc.then(function (results) {
-                console.log(pefl + url[1]);
 
                 return _nightmare.goto(pefl + url[1])
                     .wait(400)
                     .wait(ffRoster)
                     .evaluate(getHtml, bodySelecor)
-                    // .evaluate(getHtml,ffRoster)
                     .then((htmlCode) => {
-                        // const cupRef = $(ffRosterElements).find('Кубок');
-
-                        // console.log("current cup   - ", cupsList.text());
                         return results.concat(getFfCup(htmlCode, url[0]))
 
                     })

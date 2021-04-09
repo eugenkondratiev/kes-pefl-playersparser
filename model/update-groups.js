@@ -9,7 +9,7 @@ module.exports = (_nightmare, groups) => {
             return acc.then(function (rlt) {
                 const groupUrl = pefl + gr.ref;
                 const groupName = gr.name.trim();
-                console.log("----------- ", index, groupName, groupUrl);
+                // console.log("----------- ", index, groupName, groupUrl);
                 return ParseGroup(_nightmare, groupUrl, groupName)
                     .then(results => {
                         fs.writeFile("data/groups/__groupec-" + results.name + ".json",

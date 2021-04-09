@@ -7,7 +7,6 @@ module.exports = async ()=>{
      
     const _response = await dbQuery(ALL_BASE_QUERY);
     const _playersOldBase = _response.rows || [];
-    // console.log(" ## OLD base ", _playersOldBase)
     console.log(" ## OLD base ", _playersOldBase.length)
     return _playersOldBase;
        

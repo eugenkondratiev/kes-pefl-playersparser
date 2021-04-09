@@ -37,22 +37,14 @@ module.exports = (pl) => {
         nationId = +nation,
         teamId = +team,
     } = pl;
-//####################
-// console.log("### test  pl  - " , pl, nationId, teamId);
 
     const _nation = global.nationBase[nationId];
     let _ff, _club;
-    // try {
-    //     console.log("__nation - ", nationId, "\n\n", _nation)
-    // } catch (error) {
-    //     ;
-    // }
+
     try {
-        // console.log("__nation - ", nationId, "\n\n", _nation)
 
         _ff = ffId > -1 ? global.nationBase[ffId] : undefined;
         _club = teamId > 0 ? global.clubsBase[teamId] : undefined;
-        // console.log(" _club - ", teamId, _club);
 
     } catch (error) {
         console.log("error _club _ff  ", error);

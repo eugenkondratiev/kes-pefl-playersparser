@@ -9,7 +9,6 @@ class Bor {
         return this.root;
     }
     addNode(record) {
-        // record = {word, data}
         const _name = [...record.word]
         _name[_name.length - 1] = { letter: _name[_name.length - 1], last: true }
         let node = this.root;
@@ -36,7 +35,6 @@ class Bor {
         if (node[letter]) return this.search(node[letter], wordArr)
     }
     searchNode(_prefix, node = this.root) {
-        // const _prefix= normName(prefix)
         let cur = node;
         for (let index = 0; index < _prefix.length; index++) {
             const l = _prefix[index];
@@ -46,7 +44,6 @@ class Bor {
         return cur;
     }
     findDouble(_name, _pairs, isOneNation=false, node = this.root) {
-        // if(!this.searchOne(name)) return null;
         if (!_name) return node.pl ? [...node.pl] : null
         const pairs = _pairs || this.doubles;
         const name = normName(_name);
@@ -55,19 +52,14 @@ class Bor {
         const nameLength = name.length;
         const slicedName = name.slice(1);
         const doublesDepth = nameLength > 2 ? 3 : nameLength; // 
-        // console.log(" ### find double ", name, nameLength, slicedName, doublesDepth);
-        // console.log(" ### find double pairs ", pairs);
         for (let d = 1; d <= doublesDepth; d++) {
             const checkSubString = name.slice(0, d);
             const _subpairs = pairs[checkSubString]
-            // console.log("checkSubString  - ", checkSubString, " d = ", d, _subpairs);
-
             if (!_subpairs) continue;
             for (let pairedSymbols = 0; pairedSymbols < _subpairs.length; pairedSymbols++) {
                 const pairedSymbol = _subpairs[pairedSymbols];
                 const alternativeBranch = this.searchNode(pairedSymbol, node);
                 if (alternativeBranch) {
-
                     const doubleOfSubstring = this.findDouble(name.slice(d), pairs,isOneNation, alternativeBranch);
                     doubleOfSubstring ? result = [...result, ...doubleOfSubstring] : undefined
                 }
@@ -81,7 +73,6 @@ class Bor {
 
     searchOne(name) {
         const word = [...normName(name)].reverse();
-        // console.log(" searchOne   - ", name, "    ", word);
         const resp = [];
         const pl = this.search(this.root, word);
         if (pl) resp.push(pl);
@@ -89,21 +80,5 @@ class Bor {
         return resp[0] ? resp : null;
     }
 }
-
-
-// const tree = new Bor;
-// // tree.addNode({ word: "Крис Ри", data:[1, 2, "dfd", 146]});
-// // tree.addNode({ word: "Крис Риан", data:[1, 2, "dfd", 146]});
-// tree.addNode({ word: "Брауни", data: [1, 4, "dfd і", 14] });
-// tree.addNode({ word: "Бруну", data: [33, 34, "dfd і", 88] });
-// tree.addNode({ word: "Бруно", data: [45, 45, "dfd і", 17] });
-// tree.addNode({ word: "Бруно", data: [11, 14, "rdfafefqefі", 205] });
-// tree.addNode({ word: "Браунс Дж", data: [45, 45, "dfd і", 17] });
-
-// console.log(tree.getRoot());
-// require('fs').writeFile("./bor.json", JSON.stringify(tree.getRoot()), { encoding: "utf-8" }, err => { if (err) console.error });
-
-
-// console.log("Olololo", { "к": 111, "Т": "dgadg" });
 
 module.exports = Bor;

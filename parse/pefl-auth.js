@@ -22,10 +22,8 @@ function logToPefl(){
 }
 module.exports = function () {
   if (loggedPefl) {
-  console.log("return used loggedPefl");
     return loggedPefl;
   }
-  console.log("!!!New  log to Pefl");
   loggedPefl = logToPefl();
   return loggedPefl;
 }

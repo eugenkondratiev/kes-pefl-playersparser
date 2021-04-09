@@ -3,7 +3,7 @@ const pefl = 'http://pefl.ru/';
 
 function  getTableRow(rows) {
 
-            console.log("rows - ", rows);
+            // console.log("rows - ", rows);
 
         if (!Array.isArray(rows) || (rows.length == 0)) {
             return "<b> - </b>  "; 

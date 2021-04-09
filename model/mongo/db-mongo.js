@@ -14,7 +14,6 @@ module.exports = () => {
   
   return MongoClient.connect(URI, { useNewUrlParser: true, useUnifiedTopology: true  }).then(client => {
     console.log("#### - Connected DB_NAME ", DB_NAME);
-    // console.log(URI);
 
     const dataBase = client.db(DB_NAME);
     return {_db :dataBase , client: client};

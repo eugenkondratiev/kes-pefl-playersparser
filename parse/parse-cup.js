@@ -26,7 +26,6 @@ function ParseCup(_nightmare, cupUrl, _cupName, _season) {
         const tSeason = getSearchParameter(cupUrl, "f") || _season;
         const cupZ = getZ(cupUrl);
         const cupId = [tType, tFF, tSeason].join('_');
-        // console.log(cupId, "--------------------  z", cupZ);
         const rounds = {};
         list.data.forEach(r => {
           const _round = { ff: r.ff, name: r.roundName };
@@ -47,9 +46,7 @@ function ParseCup(_nightmare, cupUrl, _cupName, _season) {
         }, Promise.resolve([]))
           .then(results => {
 
-            // console.log(cupId, "-", rounds);
             console.log(_cupName, " END  ", Array.isArray(results), results.length);
-            // console.log("resolve  - ", { id: cupId, name: _cupName, z: cupZ, rounds: rounds, games: results });
             const response = { id: cupId, name: _cupName, z: cupZ, rounds: rounds, games: results, season: tSeason };
             if (list.groups) response.groups = list.groups;
             resolve(response);
