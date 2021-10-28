@@ -1,4 +1,6 @@
 const fs = require('fs');
+const util = require('util');
+const writeFile = util.promisify(fs.writeFile);
 
 async function formMongoCupRecord(results) {
     const id = results.id;
@@ -12,7 +14,7 @@ async function formMongoCupRecord(results) {
         const testOpposites = [firstGame.opposites[0].j, firstGame.opposites[1].j]
         return results.games.some(g => (g.opposites[0].j === testOpposites[1] && g.opposites[1].j === testOpposites[0]))
     }
-    const doc = { t: tournament, season, type, _id: results.id, name: results.name, completedRound: 0 }
+    const doc = { t: +tournament, season, type, _id: results.id, name: results.name, completedRound: 0 }
      doc.completedRound = 0;
     doc.twoGamesCup = checkIfItsTwoGamesCup(results);
     if (results.groups && results.groups.data) {
@@ -58,11 +60,18 @@ async function formMongoCupRecord(results) {
                 })
             return { _id: `${doc.season}_${_roundId}_${round[1].ff}`, roundID: _roundId, name: round[1].name, games: _games }
         });
-    results.groups ? doc.pl = results.pl : undefined
+    if (results.pl ){ doc.pl = results.pl }
+
     // console.log("  ### checkIfItsTwoGamesCup  - ", doc.twoGamesCup);
     const jsonFileName = `data/mongo/_${doc._id}-${doc.name}.json`
-    fs.writeFile(jsonFileName, JSON.stringify(doc, null, " "), "utf8", err => { err ? console.error : undefined })
-    return doc
+ //   fs.writeFile(jsonFileName, JSON.stringify(doc, null, " "), "utf8", err => { err ? console.error : undefined })
+	 try {
+    		await writeFile(jsonFileName, JSON.stringify(doc, null, " "), "utf8")
+	}
+	 catch (err) {console.error}
+
+
+   return doc
 }
 
 module.exports = formMongoCupRecord;

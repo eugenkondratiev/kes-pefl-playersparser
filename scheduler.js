@@ -18,7 +18,10 @@ const ruleEveryWeek = {
   dayOfWeek: 0
 };
 
-const ruleEveryHour = { minute: 1, second: 4 };
+const ruleEveryHour = {
+  minute: 1,
+  second: 4
+};
 // const ruleEveryHour2 = { minute: 58, second: 8 };
 
 module.exports = function () {
@@ -35,10 +38,10 @@ module.exports = function () {
 
 
   updateAction("", "Get players", getPlayers).then(() => true, (err) => console.log("###### - playerBaseUpdateAction", err));
- // setTimeout(() => {
- //   updateAction("cups", "Update cups", updateCups).then(() => true, err => console.log("###### - cupsUpdateAction", err));
+  // setTimeout(() => {
+   //  updateAction("cups", "Update cups", updateCups).then(() => true, err => console.log("###### - cupsUpdateAction", err));
 
- // }, 120000)
+  // }, 300000)
 
   const schDbPing = schedule.scheduleJob(ruleEveryHour, async function () {
     try {
@@ -56,8 +59,7 @@ module.exports = function () {
   });
   // const schParseCups = schedule.scheduleJob(ruleEveryHour2, function () {
   const schParseCups = schedule.scheduleJob(ruleEveryWeek, async function () {
-    updateAction("cups-", "Update cups", updateCups).then(() => true, (err) => console.log(err));
-    ;
+    updateAction("cups-", "Update cups", updateCups).then(() => true, (err) => console.log(err));;
   });
 
 }
